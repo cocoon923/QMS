@@ -1,0 +1,24 @@
+<style type="text/css">
+<!--
+{}
+.sub { font-family: "����"; color:#000000; font-size: 9pt; }
+.menu { position: absolute; left: 0; top: 10; visibility: hidden; background: #E1E1E1; width: 108px; margin: 0px 0px; padding: 0px 0px; border: 1px solid #999999; overflow: visible; ; clip:  rect(   )}
+.menu a:visited { font-family: "Tahoma"; font-size: 11px; text-decoration: none; font-weight: normal; color: black; background: #E1E1E1; clip:  rect(   ); width: 108px; line-height: 22px}
+.menu a:hover { font-family: "Tahoma"; font-size: 11px; text-decoration: none; font-weight: normal; color: #FFFFFF; background: #00448C; width: 108px; padding-left: 8px; ; line-height: 22px; clip:  rect(   )}
+.menu .border { border: 1px solid #F4F4F4; border-bottom: 1px solid #808080; border-right: 1px solid #808080; }
+.menu .text { overflow: hidden; width: 125px; height: 15px; }
+.menu .arrow { overflow: hidden; width: 15px; height: 12px; padding-left: 5px; padding-top: 3px; }
+.menu .arrow img { width: 6px; height: 7px; border: 0px; }
+.menu a { font-family: "Tahoma"; font-size: 11px; text-decoration: none; font-weight: normal; color: black; background: #E1E1E1; width: 108px; padding-left: 8px;  ; clip:  rect(   );line-height: 22px}
+.menu a:link {  color: #000000; text-decoration: none}
+a:visited { color: #000000; text-decoration: none;}
+a:link { color: #000000; text-decoration: none;}
+a:hover { color: #FF0000; text-decoration: none;}
+p {font-size:9pt; color:#000000; line-height:12pt;}
+div { font-size:9pt;}
+body { font-family: "����"; color:#000000; font-size: 9pt; line-height: 12pt;}
+td { font-family: "����"; color:#000000; font-size:9pt; line-height: 12pt;}
+.boxcolor { BORDER-RIGHT: #000000 1px double; BORDER-TOP: #000000 1px double; FONT-SIZE: 9pt; BORDER-LEFT: #000000 1px double; COLOR: #000000; BORDER-BOTTOM: #000000 1px double; FONT-FAMILY: "����"; BACKGROUND-COLOR: #FFFFFF}
+
+-->
+</style>

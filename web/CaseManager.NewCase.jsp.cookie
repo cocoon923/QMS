@@ -1,0 +1,877 @@
+<jsp:useBean id="QueryBaseData" scope="page" class="dbOperation.QueryBaseData" />
+<jsp:useBean id="CaseOpera" scope="page" class="dbOperation.CaseOpera" />
+<%@ page contentType="text/html; charset=gb2312" language="java"import="java.util.*,java.io.*,java.sql.*" %>
+<%
+  request.setCharacterEncoding("gb2312");
+%>
+
+<html>
+<link href="css/rightstyle.css" rel="stylesheet" type="text/css">
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>casemanager</title>
+<%
+  int iCount=0;
+  String sProductId="";
+  String sRMId=request.getParameter("requirement");
+  String sProducttype="";
+  String sProductvalue="";
+  String sgetCASEID="";
+  String sProcessId="";
+  if(sRMId!=null)
+	 {
+		  sProductvalue=sRMId.substring(1);
+		  int iRMId=sRMId.indexOf("R");
+		  if(iRMId>=0)
+		     sProducttype="1";
+		  else
+		    sProducttype="2";  
+      }   
+  String sopId=(String)session.getValue("OpId");
+  Vector Product=QueryBaseData.queryProduct(sProducttype,sProductvalue);
+  String sproductName="";
+   if(Product.size()>0)
+  	{
+  		HashMap Producthash = (HashMap) Product.get(0);
+  		sProductId=(String) Producthash.get("PRODUCT_ID");
+  		sproductName = "[" + (String) Producthash.get("PRODUCT_NAME") + "]"; 
+ 	 }
+ //根据入参判断是页面是新增操作还是修改操作,并对界面上case信息框的变量进行赋值
+   String scaseseq=request.getParameter("caseId");
+   String sCASEID="";
+   String sCASENAME="";
+   String sCASEDESC="";
+   String sEXPRESULT="";
+   String sCLIINFOID="";
+   String sSVRINFOID="";
+   String sCASEENV="";
+   String sCASEDATAPREPARE="";
+   String sSUBSYSID="";
+   String sMODULEID="";
+   String sOPID="";
+   String sCASETYPE="";
+   String sPROGRAMNAME="";
+   Vector CaseInfo=CaseOpera.querycaseRec(scaseseq);//("2");//
+      if(CaseInfo.size()>0)
+        {
+          for(int i=CaseInfo.size()-1;i>=0;i--)
+            {
+				HashMap CaseInfohash = (HashMap) CaseInfo.get(i);
+				sCASEID = (String) CaseInfohash.get("CASE_ID");
+				sCASENAME = (String) CaseInfohash.get("CASE_NAME");
+				sCASEDESC = (String) CaseInfohash.get("CASE_DESC");
+				sEXPRESULT = (String) CaseInfohash.get("EXP_RESULT");
+				sCLIINFOID = (String) CaseInfohash.get("CLI_INFO_ID");
+				sSVRINFOID = (String) CaseInfohash.get("SVR_INFO_ID");
+				sCASEENV = (String) CaseInfohash.get("CASE_ENV");
+				sCASEDATAPREPARE = (String) CaseInfohash.get("CASE_DATA_PREPARE");
+				sSUBSYSID = (String) CaseInfohash.get("SUB_SYS_ID");
+				sMODULEID = (String) CaseInfohash.get("MODULE_ID");
+				sOPID = (String) CaseInfohash.get("OP_ID");
+				sCASETYPE = (String) CaseInfohash.get("CASE_TYPE");
+				sPROGRAMNAME = (String) CaseInfohash.get("PROGRAM_NAME");
+				
+             }
+         }
+		      
+	//获取case步骤数据
+	Vector vCaseStep=new Vector();
+	vCaseStep=CaseOpera.querycaseProcess(scaseseq,"");
+	iCount=vCaseStep.size();
+
+%>
+
+<%@page import= "javax.servlet.http.* "%>
+<%
+	
+	String sClientVersion="";
+    String stablename;
+    String scolname;
+    String sId;
+    String sName;
+    String sClientVersionStr="";
+    Vector ClientVersion=QueryBaseData.querySysBaseType ("CASE_REC","CLI_INFO_ID");
+    if(ClientVersion.size()>0)
+      {
+       for(int i=ClientVersion.size()-1;i>=0;i--)
+        {
+			HashMap ClientVersionhash = (HashMap) ClientVersion.get(i);
+			sId = (String) ClientVersionhash.get("CODE_VALUE");
+			sName = (String) ClientVersionhash.get("CNAME");
+			sClientVersion="[" + sId +"] "+ sName;
+			//sClientVersion=sId + sName;
+			if(sClientVersion.length()>0)
+			{
+				sClientVersion=sClientVersion.replace("(","%1A");
+				sClientVersion=sClientVersion.replace(")","%2A");
+				sClientVersion=sClientVersion.replace("/","%3B");
+				sClientVersion=sClientVersion.replace(":","%4C");
+				sClientVersion=sClientVersion.replace("[","%5D");
+				sClientVersion=sClientVersion.replace("]","%6D");
+				sClientVersion=sClientVersion.replace("-","%7E");
+			}
+			if((sCASEID!=null)&& (sCLIINFOID!=null)&&(sCLIINFOID.equals(sId)==true))
+			{
+				sId=sCLIINFOID;
+				//sClientVersion="<option value="+ sId + " selected=selected>"+sClientVersion+"</option>";
+				sClientVersion="<option value%8F"+ sId + " selected=selected>"+sClientVersion+"<%3Boption>";
+			}
+			else
+			{
+				//sClientVersion="<option value="+sId+">"+sClientVersion+"</option>";
+				sClientVersion="<option value%8F"+sId+">"+sClientVersion+"<%3Boption>";								
+			}
+				sClientVersionStr=sClientVersionStr+"&"+sClientVersion;
+				//out.print(sClientVersion);
+        }
+    }
+    
+ //将界面上的基础数据放入cookie中，提高界面刷新效率
+  Cookie CLIINFOID=new Cookie("C_sClientVersion", sClientVersionStr);
+  CLIINFOID.setMaxAge(30*60); // 设置Cookie的存活时间为30分钟
+  response.addCookie(CLIINFOID); // 写入客户端硬盘
+  out.print("写Cookie完成");
+ 
+ 
+  Cookie cookies[]=request.getCookies(); // 将适用目录下所有Cookie读入并存入cookies数组中
+  Cookie sCookie=null; 
+  String sname=null;
+  String name=null;
+  if(cookies==null) // 如果没有任何cookie 得加上的哦！
+    out.print("none any cookie");
+  else
+  {
+	out.print("<br>" + cookies.length + "<br>");
+	for(int i=0;i<cookies.length; i++) // 循环列出所有可用的Cookie
+	 {
+		sCookie=cookies[i];
+		sname=sCookie.getName();
+		name = sCookie.getValue();
+		out.println(sname + "->" + name + "<br>");
+	 }
+  }     
+ 
+ %>
+
+<script language="JavaScript">
+function jsSelectItemByValue(objSelect, objItemText) 
+{            
+    //判断是否存在        
+    var isExit = false;        
+    for (var i = 0; i < objSelect.options.length; i++) 
+    {        
+        if (objSelect.options[i].text == objItemText) 
+        {        
+            objSelect.options[i].selected = true;        
+            isExit = true;        
+            break;        
+        }        
+    }
+}
+
+
+function changecolor(obj){
+obj.className = "buttonstyle2"}
+
+function restorcolor(obj){
+obj.className = "buttonstyle"}	
+
+function a1(form1)
+  {   
+      var a=form1.requirement.value;
+      if(a=="")
+      {
+         alert("无数据保存，请填写信息后再点击<保存>按钮！");
+      }
+      else
+      {
+        form1.submit();
+      }
+  }
+
+function addDialogBox(CaseInfoForm)
+{ 
+//	var k=showModalDialog('CaseManager.CaseStep.jsp',window,'dialogWidth:750px;status:no;dialogHeight:450px')
+
+	var refresh=showModalDialog('CaseManager.CaseStep.jsp?requirement=<%=sRMId%>&caseseq=<%=scaseseq%>&sCaseProcessID=""&OperType=1',window,'dialogWidth:750px;status:no;dialogHeight:450px');
+	if(refresh=="Y")   
+  	{
+  		self.location.reload(); 
+  	}
+  	
+//	window.open('CaseManager.CaseStep.jsp?requirement=<%=sRMId%>&caseseq=<%=scaseseq%>&sCaseProcessID=1&OperType=1',"StepInfo",'height=450px,width=750px,scrollbars=yes,resizable=yes');
+
+//	var k=showModalDialog('CaseManager.CaseStep.jsp?requirement=R19921&caseseq=238&CaseID=OB营帐-GS-R19921-00003&sCaseProcessID=&OperType=1',window,'dialogWidth:950px;status:no;dialogHeight:450px'); 
+	
+} 
+
+function updateDialogBox(CaseInfoForm)
+{ 
+   var count="<%=iCount%>";
+//   alert(count);
+   var j=0;
+   var processid="";
+   if(count>0)
+   {
+     var obj = document.getElementsByName("StepRadio");
+     for(i=0;i<obj.length;i++)
+     {
+       if(obj[i].checked)
+       {
+           j=1;
+           processid=obj[i].value;
+           sProcessId=processid;
+           break;
+           alert(obj[i].value);
+      }
+     }
+     if(j==0)
+     {
+        alert("2---没有选中的步骤，不能进行修改!");
+     }
+     else
+     {
+	   var refresh=showModalDialog('CaseManager.CaseStep.jsp?requirement=<%=sRMId%>&caseseq=<%=scaseseq%>&sCaseProcessID='+sProcessId+'&OperType=2',window,'dialogWidth:750px;status:no;dialogHeight:450px');
+		if(refresh=="Y")   
+  		{
+  			self.location.reload(); 
+  		}
+     }  
+   }
+   else
+   {
+      alert("1---没有选中的步骤，不能进行修改!");
+   }
+	
+
+} 
+
+
+
+function FP_goToURL(url) 
+{
+   var count="<%=iCount%>";
+//   alert(count);
+   var j=0;
+   var processid="";
+   if(count>0)
+   {
+//     var obj = document.all.StepRadio;
+     var obj = document.getElementsByName("StepRadio");
+     for(i=0;i<=obj.length;i++)
+     {
+       if(obj[i].checked)
+       {
+           j=1;
+           processid=obj[i].value;
+           sProcessId=processid;
+           break;
+           alert(obj[i].value);
+      }
+     }
+     if(j==0)
+     {
+        alert("2---没有选中的步骤，不能进行修改、删除、复制!");
+     }
+     else
+     {
+//       alert(url);
+//       alert(processid);
+//     window.location=url;
+   	   window.location=url+"&PROCESSID="+processid;
+      // window.location="test1.jsp?name="+caseId;
+      //  alert(caseId);
+     }  
+   }
+   else
+   {
+      alert("1---没有选中的步骤，不能进行修改、删除、复制!");
+   }
+}
+
+function   setCookie(name,value)   
+  {   
+      var   Days   =   30;   //此   cookie   将被保存   30   天   
+      var   exp     =   new   Date();         //new   Date("December   31,   9998");   
+      exp.setTime(exp.getTime()   +   Days*24*60*60*1000);   
+      document.cookie   =   name   +   "="+   escape(value)   +";expires="+   exp.toGMTString();   
+  }   
+  
+function   getCookie(name)   
+  {   
+      var   arr   =   document.cookie.match(new   RegExp("(^|   )"+name+"=([^;]*)(;|$)"));   
+      if(arr   !=   null)   return   unescape(arr[2]);   return   null;   
+  }   
+  
+function   delCookie(name)   
+  {   
+      var   exp   =   new   Date();   
+      exp.setTime(exp.getTime()   -   1);   
+      var   cval=getCookie(name);   
+      if(cval!=null)   document.cookie=name   +"="+cval+";expires="+exp.toGMTString();   
+  } 
+  
+</script>
+
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+<form name="CaseInfoForm" method="post" action="CaseManager.OperCaseInfo.jsp"> 
+<input type="hidden" value="<%if(scaseseq!=null) out.print(scaseseq);%>" name="CaseInfo">
+<input type="hidden" value="<%if(sRMId!=null) out.print(sRMId);%>" name="requirement">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr class="title"> 
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr class="title"> 
+          <td>新增CASE:<%//out.print("sProducttype="+sProducttype+";sProductvalue="+sProductvalue+";scaseseq=" + scaseseq + ";sCASEID=" + sCASEID +";sCASENAME="+ sCASENAME +";sCASEDESC="+ sCASEDESC +";sEXPRESULT="+ sEXPRESULT +";sCLIINFOID="+ sCLIINFOID +";sSVRINFOID="+ sSVRINFOID +";sCASEDATAPREPARE="+ sCASEDATAPREPARE +";sSUBSYSID="+sSUBSYSID+";sMODULEID="+sMODULEID+";sCASETYPE="+sCASETYPE+";sPROGRAMNAME="+sPROGRAMNAME); %><br></td>
+          <td width="24"> <div align="right"><br></div></td>
+        </tr>
+      </table></td>
+  </tr>
+ 
+  <tr> 
+    <td class="contentoutside"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr> 
+          <td class="contentbg"><table width="734" border="0" cellspacing="0" cellpadding="1" height="19">
+              <tr class="contentbg"> 
+                <td width="13%" class="pagetitle1">功能点：</td>
+                <td width="77%" class="pagetextdetails">
+                <%
+                	String sfuncName;
+                	Vector funcName=QueryBaseData.getfuncName (sProducttype,sProductvalue) ;
+                	if(funcName.size()>0)
+                	 {
+                		for(int i=funcName.size()-1;i>=0;i--)
+                	  	{
+							HashMap funcNamehash = (HashMap) funcName.get(i);
+							sfuncName = (String) funcNamehash.get("FUNCNAME");
+							out.print(sfuncName);
+                	  	}
+                	 }
+                 %>
+                </td>
+                <td width="10%" class="pagetextdetails" align="middle">
+                <%
+                   out.print(sproductName);                  
+                %>
+<input type="hidden" value="<%if(sproductName!=null) out.print(sproductName);%>" name="Version">
+                </td>
+              </tr>
+            </table> </td>
+        </tr>
+        <tr> 
+          <td class="contentbottomline"><table width="734" border="0" cellspacing="0" cellpadding="1" height="271">
+              <tr> 
+                <td class="pagetitle1">case编号：<%//out.print("sProducttype="+sProducttype+";sProductvalue="+sProductvalue); %></td>
+                <td><strong><input style= "width: 245px; " type="text" name="CASEID" class="inputstyle" size="42" disabled="disabled" style="background:#0c0c0" 
+                <%
+                	if(scaseseq!=null)
+                	{
+                		String soldCaseId;
+                		sgetCASEID=sCASEID;               		
+                		soldCaseId=" value=" + sCASEID;
+                		out.print(soldCaseId); 
+                	}                
+                    else{
+                		 String snewCaseId;
+                		 Vector newCaseId=QueryBaseData.getnewCaseId(sProducttype,sProductvalue);
+                		  if(newCaseId.size()>0)
+                		  {
+                		  	for(int i=newCaseId.size()-1;i>=0;i--)
+                		  	{
+								HashMap newCaseIdhash = (HashMap) newCaseId.get(i);
+								snewCaseId = (String) newCaseIdhash.get("NEWCASEID");
+								sgetCASEID=snewCaseId;
+								snewCaseId=" value="+ snewCaseId;
+								out.print(snewCaseId);
+								
+                		  	}
+                		  } 
+                		 }                	 
+                %>>
+<input type="hidden" value="<%if(sgetCASEID!=null) out.print(sgetCASEID);%>" name="getCASEID">
+                </strong></td>
+                <td class="pagetitle1">case名称：<br></td>
+                <td class="pagetextdetails">
+                	<input style= "width: 274px; " type="text" name="CASENAME" class="inputstyle" size="47" value="<%if(sCASEID!=null){if(sCASENAME!=null) out.print(sCASENAME);}else sCASENAME=sCASENAME ;%>"> </td>
+              </tr>
+              <tr class="contentbg"> 
+                <td class="pagetitle1">case描述：</td>
+                <td> 
+                  <textarea name="CASEDESC" style= "width: 245px; " class="inputstyle" ><%if(sCASEID!=null){if(sCASEDESC!=null) out.print(sCASEDESC);}else sCASEDESC=sCASEDESC ; %></textarea></td>
+                <td class="pagetitle1">预期结果：</td>
+                <td><textarea name="EXPRESULT" style= "width: 274px; " class="inputstyle" ><%if(sCASEID!=null){if(sEXPRESULT!=null) out.print(sEXPRESULT);}else sEXPRESULT=sEXPRESULT ; %></textarea></td>
+              </tr>
+              <tr height=""> 
+                <td class="pagetitle1">前台版本：</td>
+                <td>
+                 <select  style= "width: 247px; " name="CLIINFOID" class="inputstyle" size="1" >
+                 <option value="-999">-------请选择-------</option>
+                 <%	
+  					Cookie myCookie[]=request.getCookies();//创建一个Cookie对象数组
+					for(int n=0;n<=cookies.length-1;n++)//设立一个循环，来访问Cookie对象数组的每一个元素
+					{
+						Cookie newCookie=myCookie[n];
+						if(newCookie.getName().equals("C_sClientVersion")); //判断元素的值是否为username中的值
+						%>
+						<%=newCookie.getValue()%><%
+					}
+					
+				%>
+                 
+                </td>
+                <td class="pagetitle1">后台版本：</td>
+                <td>
+                <select style= "width: 274px; " name="SVRINFOID" class="inputstyle" size="1" >
+                 <option value="">-------请选择-------</option>
+                	<%String sserverInfo;
+                	  String stablenameSvrInfo;
+                	  String scolnameSvrInfo;
+                	  String sIdSvrInfo;
+                	  String sNameSvrInfo;
+                	  Vector ServerInfo=QueryBaseData.querySysBaseType ("CASE_REC","SVR_INFO_ID");
+                	  if(ClientVersion.size()>0)
+                	  {
+                	  	for(int i=ServerInfo.size()-1;i>=0;i--)
+                	  	{
+							HashMap ServerInfohash = (HashMap) ServerInfo.get(i);
+							sIdSvrInfo = (String) ServerInfohash.get("CODE_VALUE");
+							sNameSvrInfo = (String) ServerInfohash.get("CNAME");
+							sserverInfo="[" + sIdSvrInfo +"] "+ sNameSvrInfo;
+							if((sCASEID!=null)&& (sSVRINFOID!=null)&&(sSVRINFOID.equals(sIdSvrInfo)==true))
+							{
+								sIdSvrInfo=sSVRINFOID;
+								sserverInfo="<option value="+ sIdSvrInfo + " selected=selected>"+sserverInfo+"</option>";
+							}
+							else
+							{
+								sserverInfo="<option value="+sIdSvrInfo+">"+sserverInfo+"</option>";
+							}
+							out.print(sserverInfo);
+                	  	}
+                	  }
+                 %>
+                 </td>
+              </tr>
+              <tr class="contentbg"> 
+                <td class="pagetitle1">测试环境：</td>
+                <td> 
+                  <textarea name="CASEENV" style= "width: 245px; " class="inputstyle"><%if(sCASEID!=null){if(sCASEENV!=null) out.print(sCASEENV);}else sCASEENV=sCASEENV;%></textarea></td>
+                <td class="pagetitle1">数据准备：</td>
+                <td> 
+                  <textarea name="CASEDATAPREPARE" style= "width: 274px; " class="inputstyle"><%if(sCASEID!=null){if(sCASEDATAPREPARE!=null) out.print(sCASEDATAPREPARE);}else sCASEDATAPREPARE=sCASEDATAPREPARE;%></textarea></td>
+              </tr>
+              
+              <tr> 
+                <td class="pagetitle1">子系统：</td>
+                <td>
+                <select  style= "width: 247px; " name="SUBSYSID" id="selectSubSys" class="inputstyle" size="1" onchange="getselectSubSysValue()" >
+                 <option value="">-------请选择-------</option>
+                	<%String ssubSys;
+                	  String ssubSysId;
+                	  String ssubSysName;
+                	  Vector SubSys=QueryBaseData.querySubSystem (sProductId);
+                	  if(SubSys.size()>0)
+                	  {
+                	  	for(int i=SubSys.size()-1;i>=0;i--)
+                	  	{
+							HashMap SubSyshash = (HashMap) SubSys.get(i);
+							ssubSysId = (String) SubSyshash.get("SUBSYS_ID");
+							ssubSysName = (String) SubSyshash.get("SUBSYS_NAME_CN");
+							if((sCASEID!=null)&& (sSUBSYSID!=null)&&(sSUBSYSID.equals(ssubSysId)==true))
+							{
+								ssubSysId=sSUBSYSID;
+								ssubSys="<option value="+ ssubSysId + " selected=selected>"+ssubSysName+"</option>";
+							}
+							else
+							{
+								ssubSys="<option value="+ssubSysId+">"+ssubSysName+"</option>";
+							}
+							out.print(ssubSys);
+                	  	}
+                	  }
+                 %>
+                 </select>
+                </td>
+                <td class="pagetitle1">模块：</td>
+                <td>
+                 <select  style= "width: 274px; " name="MODULEID" id="selectModule" class="inputstyle" size="1"  >
+                 <option value="">-------请选择-------</option>
+                	<%String sModuleInfo;
+                	  String sModuleId;
+                	  String sModuleName;
+                	  String ssubSystemId="700003";
+                	  %>
+                	  <script language="JavaScript">
+                	  function getselectSubSysValue()
+                	  {
+					  	ssubSystemId = document.getElementById("selectSubSys").value;	
+					  	//Vector ModuleInfo=QueryBaseData.queryModule(sProductId,ssubSystemId);	
+					  }
+					  </script>		  
+					 <%					  
+                	  Vector ModuleInfo=QueryBaseData.queryModule(sProductId,ssubSystemId,"");
+                	  if(ModuleInfo.size()>0)
+                	  {
+                	  	for(int i=ModuleInfo.size()-1;i>=0;i--)
+                	  	{
+							HashMap ModuleInfohash = (HashMap) ModuleInfo.get(i);
+							sModuleId = (String) ModuleInfohash.get("MODULE_ID");
+							sModuleName = (String) ModuleInfohash.get("MODULE_NAME");
+							if((sCASEID!=null)&& (sMODULEID!=null)&&(sMODULEID.equals(sModuleId)==true))
+							{
+								sModuleId=sMODULEID;
+								sModuleInfo="<option value="+ sModuleId + " selected=selected>"+sModuleName+"</option>";
+							}
+							else
+							{
+								sModuleInfo="<option value="+sModuleId+">"+sModuleName+"</option>";
+							}
+							out.print(sModuleInfo);
+                	  	}
+                	  }
+                 	%>
+                 </select>
+				</td>
+              </tr>
+ 			<tr class="contentbg"> 
+                <td class="pagetitle1">进程/接口：</td>
+                <td>
+                  <textarea name="PROGRAMNAME" style= "width: 245px; " class="inputstyle"><%if(sCASEID!=null){if(sPROGRAMNAME!=null) out.print(sPROGRAMNAME);}else sPROGRAMNAME=sPROGRAMNAME;%></textarea></td>
+               
+               <td class="pagetitle1">case类型：</td>
+                <td>
+                 <select  style= "width: 274px; " name="CASETYPE" class="inputstyle" size="1" >
+                	<option value="">-------请选择-------</option>
+                	<%
+                	  String sCaseType;
+                	  String sCaseTypeId;
+                	  String sCaseTypeName;
+                	  Vector CaseType=QueryBaseData.querySysBaseType ("CASE_REC","CASE_TYPE");
+                	  if(CaseType.size()>0)
+                	  {
+                	  	for(int iCT=CaseType.size()-1;iCT>=0;iCT--)
+                	  	{
+							HashMap CaseTypehash = (HashMap) CaseType.get(iCT);
+							sCaseTypeId = (String) CaseTypehash.get("CODE_VALUE");
+							sCaseTypeName = (String) CaseTypehash.get("CNAME");
+							sCaseType="[" + sCaseTypeId +"] "+ sCaseTypeName;
+							if((sCASEID!=null)&& (sCASETYPE!=null)&&(sCASETYPE.equals(sCaseTypeId)==true))
+							{
+									sCaseTypeId=sCASETYPE;
+									sCaseType="<option value="+ sCaseTypeId + " selected=selected>"+sCaseType+"</option>";
+							}
+							else
+							{
+
+								sCaseType="<option value="+sCaseTypeId+">"+sCaseType+"</option>";								
+							}
+								out.print(sCaseType);
+                	  	}
+                	  }
+                 %>
+
+				</td>
+              </tr>
+              
+			  <tr> 
+                <td class="pagetitle1">case编写人：</td>
+                <td>
+                <select  style= "width: 247px; " name="OPID" id="selectWriteOp" class="inputstyle" size="1" >
+                	<%String sWriteOpInfo;
+                	  String sWriteOpId;
+                	  String sWriteOpLoginName;
+                	  String sWriteOpname;
+                	  String sgroupId="";
+                	  Vector WriteOpInfo=QueryBaseData.queryOpInfo (sgroupId, "");
+                	  if(WriteOpInfo.size()>0)
+                	  {
+                	  	for(int i=WriteOpInfo.size()-1;i>=0;i--)
+                	  	{
+							HashMap WriteOpInfohash = (HashMap) WriteOpInfo.get(i);
+							sWriteOpId = (String) WriteOpInfohash.get("OP_ID");
+							sWriteOpLoginName = (String) WriteOpInfohash.get("OP_LOGIN");
+							sWriteOpname = (String) WriteOpInfohash.get("OP_NAME");
+							sWriteOpInfo = sWriteOpLoginName +" --- "+sWriteOpname;
+							if(sWriteOpId.equals(sopId)==true)
+         					  {
+        					     sWriteOpInfo="<option value="+sWriteOpId+" selected=selected>"+sWriteOpInfo+"</option>";
+	    					   }
+	 					      else
+	 					      {
+	     					     sWriteOpInfo="<option value="+sWriteOpId+" >"+sWriteOpInfo+"</option>";
+	   					      }
+							/*sExecuteOpInfo="<option value="+sExecuteOpId+">"+sExecuteOpInfo+"</option>";*/
+							out.print(sWriteOpInfo);							
+                	  	}
+                	  }
+                 %>
+                 </select>
+                </td>
+                <td class="pagetitle1">case执行人：</td>
+                <td>
+                <select  style= "width: 274px; " name="selectExecuteOp" id="selectWriteOp" class="inputstyle" size="1" >
+                	<%String sExecuteOpInfo;
+                	  String sExecuteOpId;
+                	  String sExecuteOpLoginName;
+                	  String sExecuteOpname;
+                	  Vector ExecuteOpInfo=QueryBaseData.queryOpInfo (sgroupId, "");
+                	  if(ExecuteOpInfo.size()>0)
+                	  {
+                	  	for(int i=ExecuteOpInfo.size()-1;i>=0;i--)
+                	  	{
+							HashMap ExecuteOpInfohash = (HashMap) ExecuteOpInfo.get(i);
+							sExecuteOpId = (String) ExecuteOpInfohash.get("OP_ID");
+							sExecuteOpLoginName = (String) ExecuteOpInfohash.get("OP_LOGIN");
+							sExecuteOpname = (String) ExecuteOpInfohash.get("OP_NAME");
+							sExecuteOpInfo = sExecuteOpLoginName +" --- "+sExecuteOpname;
+							 if(sExecuteOpId.equals(sopId)==true)
+         					  {
+        					     sExecuteOpInfo="<option value="+sExecuteOpId+" selected=selected>"+sExecuteOpInfo+"</option>";
+	    					   }
+	 					      else
+	 					      {
+	     					     sExecuteOpInfo="<option value="+sExecuteOpId+" >"+sExecuteOpInfo+"</option>";
+	   					      }
+							/*sExecuteOpInfo="<option value="+sExecuteOpId+">"+sExecuteOpInfo+"</option>";*/
+							out.print(sExecuteOpInfo);
+                	  	}
+                	  }
+                 %>
+                 </select>
+				</td>
+              </tr>
+            </table> </td>
+
+</tr>    
+        <tr>
+          <td><div align="left">
+              <table width="146" border="0" cellspacing="5" cellpadding="5">
+                <tr>
+                 <td width="100" height="30"><table width="80" border="0" cellspacing="1" cellpadding="1">
+                      <tr> 
+    				  <td class="buttonstyle" onMouseOver = "changecolor(this)" onMouseOut = "restorcolor(this)" onclick="hiddenButton.click()">保存</td>
+    				  <input type="button" name="hiddenButton" id="hiddenButton" runat="server"  style="display:none;" OnClick="a1(this.form)" >
+                      </tr>
+                    </table></td> 
+      
+				  <td width="0" height="0"><table width="0" border="0" cellspacing="0" cellpadding="0" height="21">
+				    	<tr> 
+				    	</tr>
+				    </table></td>    
+				    <td width="1" height="1"><table width="1" border="0" cellspacing="0" cellpadding="0" height="30">
+				    	<tr> 
+				    	<td class="reportLine2"><br></td>
+				    	</tr>
+				    </table></td>
+				    <td width="0" height="0"><table width="0" border="0" cellspacing="0" cellpadding="0" height="21">
+				    	<tr> 
+				    	</tr>
+				    </table></td>
+				    
+                  <td width="100" height="30"><table width="80" border="0" cellspacing="1" cellpadding="1" >
+                      <tr> <%String Type="1"; %>
+                        <td class="buttonstyle" onMouseOver = "changecolor(this)" onMouseOut = "restorcolor(this)" onclick="addDialogBox(CaseInfoForm)" >新建步骤
+                        </td>
+                      </tr>
+                    </table></td>
+
+                  <td width="100" height="30"><table width="80" border="0" cellspacing="1" cellpadding="1">
+                      <tr> 
+                        <td class="buttonstyle" onMouseOver = "changecolor(this)" onMouseOut = "restorcolor(this)" onclick="updateDialogBox(CaseInfoForm)" >修改步骤
+                        </td>
+                      </tr>
+                    </table></td>                  
+                    
+                  <td width="101"><table width="80" border="0" cellspacing="1" cellpadding="1">
+                      <tr> 
+                        <td class="buttonstyle" onMouseOver = "changecolor(this)" onMouseOut = "restorcolor(this)" onclick="FP_goToURL(/*href*/'CaseManger.OperCaseStepInfo.jsp?CaseSeq=<%=scaseseq%>&sOperType=3')" >删除步骤<br></td>
+                      </tr>
+                    </table></td>
+                    
+                  <td width="100" height="30"><table width="80" border="0" cellspacing="1" cellpadding="1">
+                      <tr> 
+                        <td class="buttonstyle" onMouseOver = "changecolor(this)" onMouseOut = "restorcolor(this)" onclick="FP_goToURL(/*href*/'CaseManger.OperCaseStepInfo.jsp?CaseSeq=<%=scaseseq%>&sOperType=4')">复制步骤<br></td>
+                      </tr>
+
+				    </table></td>
+				    <td width="0" height="0"><table width="0" border="0" cellspacing="0" cellpadding="0" height="21">
+				    	<tr> 
+				    	</tr>
+				    </table></td>                     
+					<td width="1" height="1"><table width="1" border="0" cellspacing="0" cellpadding="0" height="30">
+				    	<tr> 
+				    	<td class="reportLine2"><br></td>
+				    	</tr>
+				    </table></td>
+				    <td width="0" height="0"><table width="0" border="0" cellspacing="0" cellpadding="0" height="21">
+				    	<tr> 
+				    	</tr>
+				    </table></td>
+				    
+				    <td width="100" height="30"><table width="80" border="0" cellspacing="1" cellpadding="1">
+                      <tr> 
+                        <td class="buttonstyle" onMouseOver = "changecolor(this)" onMouseOut = "restorcolor(this)" onclick="location.href='casemanager.jsp?requirement=<%=sRMId%>'">返回<br></td>
+                      </tr>
+                    </table></td>
+                   
+                </tr>
+              </table>
+            </div></td>
+        </tr>
+	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tr class="title"> 
+   	 <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr class="title"> 
+          <td>case步骤详细信息<br></td>
+          <td width="24"> <div align="right"><br></div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0"">
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0" id="steplist">
+              <tr> 
+                <td width="5%" class="pagecontenttitle"><div align="center"></div></td>
+                <td width="5%" class="pagecontenttitle">ID</td>
+                <td width="15%" class="pagecontenttitle">描述</td>
+                <td width="15%" class="pagecontenttitle">预期结果<br></td>
+                <td width="15%" class="pagecontenttitle">数据检查<br></td>
+                <td width="15%" class="pagecontenttitle">实际结果<br></td>
+                <td width="15%" class="pagecontenttitle">后台日志<br></td>
+                <td width="5%" class="pagecontenttitle">dump-in<br></td>
+                <td width="5%" class="pagecontenttitle">dump-out</td>
+                <td width="5%" class="pagecontenttitleright">附件</td>
+              </tr>
+		<% 
+		   if(sCASEID!=null)
+		   {
+		      String sPROCESSID="";
+		      String sPROCESSDESC="";
+		      String sProcessEXPRESULT="";
+		      String sCASEDATACHECK="";
+		      String sCASELOG="";
+		      String sREALRESULT="";
+		      String sProcessTATUS="";
+		      String sINDUMP="";
+		      String sOUTDUMP="";
+		      String sACCESSORY="";
+		      
+		      int iCaseStep=vCaseStep.size();
+		      iCount=iCaseStep;
+		      
+		      int jCS=1;
+		      //iCount=vCase.size();
+		      if(vCaseStep.size()>0)
+		      {
+		         for(int iCS=vCaseStep.size()-1;iCS>=0;iCS--)
+		         {
+	                HashMap hash = (HashMap) vCaseStep.get(iCS);
+	                
+	                sPROCESSID =(String) hash.get("PROCESS_ID");
+	                sPROCESSDESC = (String) hash.get("PROCESS_DESC");
+	                sProcessEXPRESULT = (String) hash.get("EXP_RESULT");
+	                sCASEDATACHECK = (String) hash.get("CASE_DATA_CHECK");
+	                sCASELOG = (String) hash.get("CASE_LOG");
+	                sREALRESULT = (String) hash.get("REAL_RESULT");
+	                sProcessTATUS = (String) hash.get("TATUS");
+	                sINDUMP = (String) hash.get("IN_DUMP");
+	                sOUTDUMP = (String) hash.get("OUT_DUMP");
+	                sACCESSORY = (String) hash.get("ACCESSORY");
+
+        			if(iCS%2!=0)
+        			{
+        		 %>
+			        <tr> 
+			             <td class="coltext"><div align="center"> 
+			                 <input type="radio" name="StepRadio" value="<%=sPROCESSID%>">
+			             </div></td>
+			             <td class="coltext"><%=sPROCESSID%></td>
+			             <td class="coltext"><%=sPROCESSDESC%></td>
+			             <td class="coltext"><%=sProcessEXPRESULT%></td>
+			             <td class="coltext"><%=sCASEDATACHECK%></td>
+			             <td class="coltext"><%=sCASELOG%></td>
+			             <td class="coltext"><%=sREALRESULT%></td>
+			             <td class="coltext"><%=sINDUMP%></td>			             			             
+			             <td class="coltext"><%=sOUTDUMP%></td>
+			             <td class="coltext"><%=sACCESSORY%></td>			             
+			         </tr>
+         	<%
+         		}
+         	 %>
+         	 <%
+         	 	if(iCS%2==0)
+         	 	{
+         	  %>
+			        <tr> 
+			             <td class="coltext"><div align="center"> 
+			                 <input type="radio" name="StepRadio" value="<%=sPROCESSID%>">
+			             </div></td>
+			             <td class="coltext2"><%=sPROCESSID%></td>
+			             <td class="coltext2"><%=sPROCESSDESC%></td>
+			             <td class="coltext2"><%=sProcessEXPRESULT%></td>
+			             <td class="coltext2"><%=sCASEDATACHECK%></td>
+			             <td class="coltext2"><%=sCASELOG%></td>
+			             <td class="coltext2"><%=sREALRESULT%></td>
+			             <td class="coltext2"><%=sINDUMP%></td>			             			             
+			             <td class="coltext2"><%=sOUTDUMP%></td>
+			             <td class="coltext2"><%=sACCESSORY%></td>			             
+			         </tr>      	  
+         	  <%
+         	  	} 
+         	  %>
+        <%        
+                 jCS=jCS+1;
+                 }
+              }
+            }   
+         %>
+
+              <tr> 
+                <td class="pagecontenttitle">&nbsp;</td>
+                <td width="5%" class="pagecontenttitle">ID</td>
+                <td width="15%" class="pagecontenttitle">描述</td>
+                <td width="15%" class="pagecontenttitle">预期结果<br></td>
+                <td width="15%" class="pagecontenttitle">数据检查<br></td>
+                <td width="15%" class="pagecontenttitle">实际结果<br></td>
+                <td width="15%" class="pagecontenttitle">后台日志<br></td>
+                <td width="5%" class="pagecontenttitle">dump-in<br></td>
+                <td width="5%" class="pagecontenttitle">dump-out</td>
+                <td width="5%" class="pagecontenttitleright">附件</td>
+              </tr>
+            </table></td>
+        </tr>      
+      </table>
+</table>
+<div align="center"></div>
+        <tr> 
+          <td class="contentbottomline"><table width="734" border="0" cellspacing="0" cellpadding="1" height="66">
+              <tr> 
+                <td  class="pagetitle1">结论:</td></tr>
+              <tr>  
+                <td><textarea style= "width: 780px; " name="textarea" cols="130" class="inputstyle"></textarea></td>
+              </tr>
+            </table> </td>
+        </tr>
+         <tr> 
+          <td><br><div align="center">
+              <table width="146" border="0" cellspacing="5" cellpadding="5">
+                <tr>
+
+                </tr>
+              </table>
+            </div><br></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<div align="center"></div>
+
+</form>
+</body>
+
+</html>

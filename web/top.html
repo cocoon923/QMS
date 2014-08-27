@@ -1,0 +1,118 @@
+
+<html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<SCRIPT language="Javascript">
+var NaviArray = new Array();
+//deep从1开始.
+function addNavi(newValue,deep)
+{
+   //alert("deep="+deep);
+   while(NaviArray.length>(deep-1))
+      NaviArray.pop();
+   NaviArray.push(newValue);
+   var tmp = '';
+   //alert("array length="+NaviArray.length);
+   for(i=0;i<NaviArray.length;i++){
+     if(i==0)
+       tmp+=NaviArray[i];
+     else
+       tmp+='>>'+NaviArray[i];
+   }
+   var Navi = document.all.item("Navi");
+   Navi.innerText=""
+   Navi.innerText=tmp;
+}
+function removeAll(){
+  tmp = NaviArray.length;
+  for(i=0;i<tmp;i++){
+    NaviArray.pop();
+  }
+  var Navi = document.all.item("Navi");
+  Navi.innerText=tmp;
+}
+function postFunc(pFuncId,pViewName)
+{
+   if(pViewName==null || pFuncId==null)
+     return;
+   //alert("in postfunc viewname="+pViewName);
+   if(pViewName!="menuRight" && pViewName!="" && pViewName!=" ")
+     {
+	   //alert("in postfunc,ok,will post id="+pFuncId);
+	   var msg = PostInfo("","aibusiness.custservice.CrmAgent",1001,"Func_ID="+pFuncId);
+	   //alert("msg="+msg);
+	 }
+  
+}
+</SCRIPT>
+
+<head>
+<META HTTP-EQUIV="Expires" CONTENT="Mon, 04 Dec 1999 21:29:02 GMT">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<META HTTP-EQUIV="Pragma"  CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<%@page contentType="text/html; charset=gb2312"%>
+<%@page buffer="none"%>
+<title>TOP页面</title>
+<link href="css/topstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr class="toptable1">
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr> 
+          <td width="62%" class="comumberinfo"> <span class="redtag">|</span> 
+            <span class="comumberinfor2">操作员：</span>潘绍强 <span class="redtag">|</span> 
+            <span class="comumberinfor2">所属公司：</span>亚信科技（中国）有限公司 <span class="redtag">| 
+            </span><span class="comumberinfor2">所属组：</span>QA<span class="redtag">|</span></td>
+          <td width="38%"><div align="right"><img src="image/commonimage/bigtitle.gif" width="307" height="25"></div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="58"><table width="100%" height="58" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="351" valign="top" background="image/commonimage/titlebg.gif">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr> 
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td bgcolor="#FF4A00"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr align="center" valign="middle"> 
+                            <td width="26"><img src="image/commonimage/back.gif" width="22" height="19"></td>
+                            <td width="51" class="functiontext"><a href="main.jsp" target="_parent" class="functiontext">返回首页</a></td>
+                            <td width="23"><img src="image/commonimage/hindpage.gif" width="22" height="19"></td>
+                            <td width="57"><a href="#" class="functiontext">隐藏首页</a></td>
+                            <td width="22"><img src="image/commonimage/off.gif" width="22" height="19"></td>
+                            <td width="35"><a href="index.htm" target="_parent"  class="functiontext">注销</a></td>
+                            <td width="24"><img src="image/commonimage/close.gif" width="22" height="19"></td>
+                            <td width="31"><a href="#" class="functiontext">关闭</a></td>
+                            <td width="22"><img src="image/commonimage/help.gif" width="22" height="19"></td>
+                            <td width="40"><a href=""   class="functiontext">帮助</a></td>
+                          </tr>
+                        </table></td>
+                      <td width="19">
+<div align="right"><img src="image/commonimage/topminedge.gif" width="19" height="21"></div></td>
+                    </tr>
+                  </table></td>
+              </tr>
+              <tr> 
+                <td></td>
+              </tr>
+            </table>
+          </td>
+          <td width="284" valign="middle" background="image/commonimage/titlebg.gif"> 
+					  
+            <div align="center" ><font color="#444444" size="+3" face="黑体"><strong><label id='Navi'></label> 
+              </strong></font></div></td>
+
+          <td width="153" align="right" valign="bottom" background="image/commonimage/logobg.gif"> 
+            <div align="right"><img src="image/commonimage/logo.gif" width="151" height="52"></div></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
+tr.toptable1 {
+	background-color: #000000;
+	margin: 1px;
+	padding: 1px;
+}
+.redtag {
+	font-size: 12px;
+	font-weight: bold;
+	color: #FF4A00;
+}
+.comumberinfo {
+	font-family: "宋体";
+	font-size: 12px;
+	color: #FFFFFF;
+}
+.comumberinfor2 {
+	font-family: "宋体";
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+.functiontext {
+	font-family: "宋体";
+	font-size: 12px;
+	color: #000000;
+}
+.functiontext:link {
+	font-family: "宋体";
+	font-size: 12px;
+	color: #000000;
+	text-decoration: none;
+}
+.functiontext:visited {
+	font-family: "宋体";
+	font-size: 12px;
+	color: #660000;
+	text-decoration: none;
+}
+.functiontext:hover {
+	font-family: "宋体";
+	font-size: 12px;
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+.comumberinfo3 {
+	font-family: "宋体";
+	font-size: 12px;
+	color: #FFA47F;
+}

@@ -1,0 +1,27 @@
+TABLE.calendar {
+	BORDER-RIGHT: #888888 1px solid; BORDER-TOP: #cccccc 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #888888 1px solid; FONT-FAMILY: Tahoma
+}
+TD.lastMonth {
+	COLOR: #bbbbbb
+}
+TD.nextMonth {
+	COLOR: #bbbbbb
+}
+TD.normal {
+	COLOR: black
+}
+TD.smallFont {
+	FONT-SIZE: 10px
+}
+TD.tdCurDate {
+	BACKGROUND: url(bgCurDate.gif) no-repeat center center; COLOR: white
+}
+TD.tdToday {
+	BACKGROUND: url(bgToday1.gif) no-repeat center center; COLOR: black
+}
+TD.tdTodayCurDate {
+	BACKGROUND: url(bgToday2.gif) no-repeat center center; COLOR: white
+}
+TD.tdHoliday {
+	COLOR: darkred
+}
