@@ -13,6 +13,8 @@
 %>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="../datatables/css/dataTables.colVis.css">
+<link rel="stylesheet" type="text/css" href="../datatables/css/jquery.dataTables.css">
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <%@ page contentType="text/html; charset=gb2312" %>
 <script language="javascript">
@@ -240,54 +242,54 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td class="contentbottomline">
-<table width="100%" border="0" cellspacing="0" cellpadding="1">
-<%
+    <table width="100%" border="0" cellspacing="0" cellpadding="1">
+        <%
 
-    Vector vDataBaseDate = importRequirment.getDataBaseDate();
-    if (vDataBaseDate.size() > 0) {
-        HashMap dataBaseMap = (HashMap) vDataBaseDate.get(0);
-        sdate_s = (String) dataBaseMap.get("SDATE_S");
-        sDate = (String) dataBaseMap.get("SDATE");
-    }
-    if (!sSelectStartDate.equals(""))
-        sdate_s = sSelectStartDate;
-    if (!sSelectEndDate.equals(""))
-        sDate = sSelectEndDate;
-%>
-<tr>
-    <td width="15%" class="pagetitle1" style="height: 40px; ">
-        <div align="left">录入时间：</div>
-        <div align="right"></div>
-    </td>
-    <td width="85%" class="pagetextdetails">
-        <%
-            if (sQueryDate.equals("1")) {
-                if (sSelectDate.equals("1")) {
-        %>
-        <input name="cdate" type="checkbox" id="chk_date" value="1" checked>
-        <%
-        } else {
-        %>
-        <input name="cdate" type="checkbox" id="chk_date" value="1">
-        <%
+            Vector vDataBaseDate = importRequirment.getDataBaseDate();
+            if (vDataBaseDate.size() > 0) {
+                HashMap dataBaseMap = (HashMap) vDataBaseDate.get(0);
+                sdate_s = (String) dataBaseMap.get("SDATE_S");
+                sDate = (String) dataBaseMap.get("SDATE");
             }
-        } else {
+            if (!sSelectStartDate.equals(""))
+                sdate_s = sSelectStartDate;
+            if (!sSelectEndDate.equals(""))
+                sDate = sSelectEndDate;
         %>
-        <input name="cdate" type="checkbox" id="chk_date" value="1">
-        <%
-            }
-        %>
-        <input name="startTime" type="text" class="inputstyle" id="startTime" onClick="JSCalendar(this);"
-               value="<%=sdate_s%>" size="10">
-        ---
-        <input name="endTime" type="text" class="inputstyle" id="endTime" value="<%=sDate%>" size="10"
-               onClick="JSCalendar(this);"></td>
-</tr>
-<input type="hidden" name="sCheckDate" value="1">
-<tr class="contentbg">
-    <td class="pagetitle1" style="height: 40px; ">产品名称：</td>
-    <td><font class="pagetextdetails">
-            <%
+        <tr>
+            <td width="15%" class="pagetitle1" style="height: 40px; ">
+                <div align="left">录入时间：</div>
+                <div align="right"></div>
+            </td>
+            <td width="85%" class="pagetextdetails">
+                <%
+                    if (sQueryDate.equals("1")) {
+                        if (sSelectDate.equals("1")) {
+                %>
+                <input name="cdate" type="checkbox" id="chk_date" value="1" checked>
+                <%
+                } else {
+                %>
+                <input name="cdate" type="checkbox" id="chk_date" value="1">
+                <%
+                    }
+                } else {
+                %>
+                <input name="cdate" type="checkbox" id="chk_date" value="1">
+                <%
+                    }
+                %>
+                <input name="startTime" type="text" class="inputstyle" id="startTime" onClick="JSCalendar(this);"
+                       value="<%=sdate_s%>" size="10">
+                ---
+                <input name="endTime" type="text" class="inputstyle" id="endTime" value="<%=sDate%>" size="10"
+                       onClick="JSCalendar(this);"></td>
+        </tr>
+        <input type="hidden" name="sCheckDate" value="1">
+        <tr class="contentbg">
+            <td class="pagetitle1" style="height: 40px; ">产品名称：</td>
+            <td><font class="pagetextdetails">
+                    <%
                          Vector vProductInfo=importRequirment.getAllProductInfo("1");
                          if(vProductInfo.size()>0)
                          {
@@ -311,27 +313,27 @@
                               if(k==0)
                               {
                       %>
-        <input type="checkbox" value="<%=PRODUCT_ID%>" name="productName"><font
-            class="pagetextdetails"><%=PRODUCT_NAME%>&nbsp;&nbsp;
-            <%        }
+                <input type="checkbox" value="<%=PRODUCT_ID%>" name="productName"><font
+                    class="pagetextdetails"><%=PRODUCT_NAME%>&nbsp;&nbsp;
+                    <%        }
                               else
                               {
                      %>
-        <input type="checkbox" value="<%=PRODUCT_ID%>" name="productName" checked><font
-                class="pagetextdetails"><%=PRODUCT_NAME%>&nbsp;&nbsp;
+                <input type="checkbox" value="<%=PRODUCT_ID%>" name="productName" checked><font
+                        class="pagetextdetails"><%=PRODUCT_NAME%>&nbsp;&nbsp;
 
-            <%
+                    <%
+                                }
+                            }
                         }
-                    }
-                }
-            %>
-        </font></td>
-</tr>
+                    %>
+                </font></td>
+        </tr>
 
-<tr>
-    <td class="pagetitle1" style="height: 40px; ">需求状态：</td>
-    <td><font class="pagetextdetails">
-            <%
+        <tr>
+            <td class="pagetitle1" style="height: 40px; ">需求状态：</td>
+            <td><font class="pagetextdetails">
+                    <%
                       	 //Vector vRequirement=QueryBaseData.querySysBaseType("DEMAND_REQUEST","STATUS");
                          Vector vRequirement=importRequirment.getAllRequirement("1,2,3,4,5");
                          if(vRequirement.size()>0)
@@ -356,89 +358,91 @@
                                 if(ik==0)
                                 {
                        %>
-        <input type="checkbox" value="<%=PRODUCT_ID%>" name="productState"><font class="pagetextdetails"><%=NAME%>&nbsp;&nbsp;
+                <input type="checkbox" value="<%=PRODUCT_ID%>" name="productState"><font
+                    class="pagetextdetails"><%=NAME%>&nbsp;&nbsp;
 
-            <%
+                    <%
                                 }
                                 else
                                 {
                        %>
-        <input type="checkbox" value="<%=PRODUCT_ID%>" name="productState" checked><font
-                class="pagetextdetails"><%=NAME%>&nbsp;&nbsp;
-            <%
+                <input type="checkbox" value="<%=PRODUCT_ID%>" name="productState" checked><font
+                        class="pagetextdetails"><%=NAME%>&nbsp;&nbsp;
+                    <%
+                                }
+                            }
                         }
-                    }
-                }
-            %>
+                    %>
 
-        </font></td>
-</tr>
+                </font></td>
+        </tr>
 
-<tr style="display:none">
-    <td class="pagetitle1" style="height: 30px; ">需求状态：</td>
-    <td>
-        <select style="width: 315px; " name="demandflag" class="inputstyle" id="demandflag">
-            <%
-                if (sdemandflag == null) {
-            %>
-            <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
-            <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
-            <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
-            <%
-            } else {
-                if (sdemandflag.equals("")) {
-            %>
-            <option value="" class="pagetextdetails" selected> -------------- 选择所有 --------------</option>
-            <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
-            <option value="1" class="pagetextdetails"> [1] 生效 <br></option>
-            <%
-            } else if (sdemandflag.equals("0")) {
-            %>
-            <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
-            <option value="0" class="pagetextdetails" selected> [0] 失效 <br></option>
-            <option value="1" class="pagetextdetails"> [1] 生效 <br></option>
-            <%
-            } else if (sdemandflag.equals("1")) {
-            %>
-            <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
-            <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
-            <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
-            <%
-            } else {
-            %>
-            <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
-            <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
-            <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
-            <%
-                    }
-                }
-            %>
-        </select>
-    </td>
-</tr>
+        <tr style="display:none">
+            <td class="pagetitle1" style="height: 30px; ">需求状态：</td>
+            <td>
+                <select style="width: 315px; " name="demandflag" class="inputstyle" id="demandflag">
+                    <%
+                        if (sdemandflag == null) {
+                    %>
+                    <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
+                    <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
+                    <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
+                    <%
+                    } else {
+                        if (sdemandflag.equals("")) {
+                    %>
+                    <option value="" class="pagetextdetails" selected> -------------- 选择所有 --------------</option>
+                    <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
+                    <option value="1" class="pagetextdetails"> [1] 生效 <br></option>
+                    <%
+                    } else if (sdemandflag.equals("0")) {
+                    %>
+                    <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
+                    <option value="0" class="pagetextdetails" selected> [0] 失效 <br></option>
+                    <option value="1" class="pagetextdetails"> [1] 生效 <br></option>
+                    <%
+                    } else if (sdemandflag.equals("1")) {
+                    %>
+                    <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
+                    <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
+                    <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
+                    <%
+                    } else {
+                    %>
+                    <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
+                    <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
+                    <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
+                    <%
+                            }
+                        }
+                    %>
+                </select>
+            </td>
+        </tr>
 
-<!--
+        <!--
                 <tr  class="contentbg">
                   <td class="pagetitle1" style= "height: 35px; ">需求编号：</td>
                   <td class="pagetextdetails">
                   <input name="rId" type="text" class="inputstyle" id="rId"   size="50" value="<%=rId%>"></td>
                 </tr> -->
 
-<tr class="contentbg">
-    <td class="pagetitle1" style="height: 45px; ">需求标题：</td>
-    <td class="pagetextdetails">
-        <input name="demandTitle" type="text" class="inputstyle" id="demandTitle" size="50" value="<%=demandTitle%>">
-    </td>
-</tr>
+        <tr class="contentbg">
+            <td class="pagetitle1" style="height: 45px; ">需求标题：</td>
+            <td class="pagetextdetails">
+                <input name="demandTitle" type="text" class="inputstyle" id="demandTitle" size="50"
+                       value="<%=demandTitle%>">
+            </td>
+        </tr>
 
-<!--
+        <!--
                 <tr>
                   <td class="pagetitle1" style= "height: 35px; ">故障编号：</td>
                   <td class="pagetextdetails">
                   <input name="gId" type="text" class="inputstyle" id="gId"   size="50" value="<%=gId%>"></td>
                 </tr>-->
 
-</table>
+    </table>
 </td>
 </tr>
 <tr>
@@ -539,120 +543,120 @@
     </tr>
     <tr>
         <td>
-            <table width="100%" border="0" cellspacing="0" cellpadding="0"
-            ">
-    <tr>
-        <td>
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="steplist">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="3%" class="pagecontenttitle">
-                        <div align="center"></div>
+                    <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="steplist">
+                            <tr>
+                                <td width="3%" class="pagecontenttitle">
+                                    <div align="center"></div>
+                                </td>
+                                <td width="5%" class="pagecontenttitle">序号</td>
+                                <td width="3%" class="pagecontenttitle">需求ID</td>
+                                <td width="17%" class="pagecontenttitle">名称<br></td>
+                                <td width="5%" class="pagecontenttitle">状态<br></td>
+                                <td width="5%" class="pagecontenttitle">子系统<br></td>
+                                <td width="5%" class="pagecontenttitle">模块<br></td>
+                                <td width="8%" class="pagecontenttitle">项目名称<br></td>
+                                <td width="8%" class="pagecontenttitle">紧急程度<br></td>
+                                <td width="8%" class="pagecontenttitle">开发计划开始时间<br></td>
+                                <td width="8%" class="pagecontenttitle">开发计划提交时间<br></td>
+                                <td width="7%" class="pagecontenttitle">开发人员<br></td>
+                                <td width="8%" class="pagecontenttitle">测试人员<br></td>
+                            </tr>
+                            <%
+                                String sDEMAND_ID = "";
+                                String sDemandName = "";
+                                String sProjectName = "";
+                                String sDemandStatus = "";
+                                String sLevelId = "";
+                                String sFinishTime = "";
+                                String sSubSysName = "";
+                                String sModuleName = "";
+                                String sDevId = "";
+                                String sTesterId = "";
+                                String sReportTime = "";
+                                String sPlanDevBeginTime = "";
+                                String sPlanDevTime = "";
+
+
+                                int j = 1;
+
+                                Vector vDemandRequest = importRequirment.getRequirementList(demandTitle, QueryStartTime, QueryEndTime, QueryProduct, QueryReq, "");
+                                if (vDemandRequest.size() > 0) {
+                                    demandCount = vDemandRequest.size();
+                                    for (int i = 0; i < vDemandRequest.size(); i++) {
+                                        HashMap reqMap = (HashMap) vDemandRequest.get(i);
+                                        sDEMAND_ID = (String) reqMap.get("DEMAND_ID");
+                                        sDemandName = (String) reqMap.get("DEMAND_NAME");
+                                        sDemandStatus = (String) reqMap.get("STATE");
+                                        sProjectName = (String) reqMap.get("PROJECT_NAME");
+                                        sLevelId = (String) reqMap.get("LEVEL_ID");
+                                        sSubSysName = (String) reqMap.get("SUBSYS_NAME");
+                                        sModuleName = (String) reqMap.get("MODULE_NAME");
+                                        sFinishTime = (String) reqMap.get("FINISHTIME");
+                                        sDevId = (String) reqMap.get("DEV_ID");
+                                        sTesterId = (String) reqMap.get("TESTER_ID");
+                                        sReportTime = (String) reqMap.get("REPORT_TIME");
+                                        sPlanDevBeginTime = (String) reqMap.get("PLAN_DEV_BEGIN_TIME");
+                                        sPlanDevTime = (String) reqMap.get("PLAN_DEV_TIME");
+
+
+                            %>
+
+
+                            <tr>
+                                <td class="coltext">
+                                    <div align="center"><input type="radio" name="demandradio"
+                                                               value="<%out.print(sDEMAND_ID+"|"+sDemandStatus);%>">
+                                    </div>
+                                </td>
+                                <td class="coltext">(<%=j%>)</td>
+                                <td class="coltext"><a href="#"
+                                                       onclick="goToURL(/*href*/'DemandManager.DemandInfo.jsp?planid=<%=sDEMAND_ID%>')"><%=sDEMAND_ID%>
+                                </a></td>
+                                <td class="coltext"><%=sDemandName%>
+                                </td>
+                                <td class="coltext"><%=sDemandStatus%>
+                                </td>
+                                <td class="coltext"><%=sSubSysName%>
+                                </td>
+                                <td class="coltext"><%=sModuleName%>
+                                </td>
+                                <td class="coltext"><%=sProjectName%>
+                                </td>
+                                <td class="coltext"><%=sLevelId%>
+                                </td>
+                                <td class="coltext"><%=sPlanDevBeginTime%>
+                                </td>
+                                <td class="coltext"><%=sPlanDevTime%>
+                                </td>
+                                <td class="coltext"><%=sDevId%>
+                                </td>
+                                <td class="coltext"><%=sTesterId%>
+                                </td>
+
+
+                                <%-- 				<td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(PLAN_DEV_TIME==null) out.print("&nbsp;");else out.print(PLAN_DEV_TIME);%></td>
+                                                    <td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(REAL_DEV_TIME==null) out.print("&nbsp;");else out.print(REAL_DEV_TIME);%></td>
+                                                    <td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(PLAN_TEST_TIME==null) out.print("&nbsp;");else out.print(PLAN_TEST_TIME);%></td>
+                                                     <td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(DEV_NAME==null) out.print("&nbsp;");else out.print(DEV_NAME);%></td>
+                                                     <td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(TESTER_NAME==null) out.print("&nbsp;");else out.print(TESTER_NAME);%></td>
+                                                    <td class="<%if(i%2!=0) out.print("coltext10"); else out.print("coltext20");%>">&nbsp;<%if(REMARK==null) out.print("&nbsp;");else out.print(REMARK);%></td> --%>
+                            </tr>
+                            <%
+                                        j = j + 1;
+                                    }
+                                }
+                            %>
+
+
+                        </table>
                     </td>
-                    <td width="5%" class="pagecontenttitle">序号</td>
-                    <td width="3%" class="pagecontenttitle">需求ID</td>
-                    <td width="17%" class="pagecontenttitle">名称<br></td>
-                    <td width="5%" class="pagecontenttitle">状态<br></td>
-                    <td width="5%" class="pagecontenttitle">子系统<br></td>
-                    <td width="5%" class="pagecontenttitle">模块<br></td>
-                    <td width="8%" class="pagecontenttitle">项目名称<br></td>
-                    <td width="8%" class="pagecontenttitle">紧急程度<br></td>
-                    <td width="8%" class="pagecontenttitle">开发计划开始时间<br></td>
-                    <td width="8%" class="pagecontenttitle">开发计划提交时间<br></td>
-                    <td width="7%" class="pagecontenttitle">开发人员<br></td>
-                    <td width="8%" class="pagecontenttitle">测试人员<br></td>
                 </tr>
-                <%
-                    String sDEMAND_ID = "";
-                    String sDemandName = "";
-                    String sProjectName = "";
-                    String sDemandStatus = "";
-                    String sLevelId = "";
-                    String sFinishTime = "";
-                    String sSubSysName = "";
-                    String sModuleName = "";
-                    String sDevId = "";
-                    String sTesterId = "";
-                    String sReportTime = "";
-                    String sPlanDevBeginTime = "";
-                    String sPlanDevTime = "";
-
-
-                    int j = 1;
-
-                    Vector vDemandRequest = importRequirment.getRequirementList(demandTitle, QueryStartTime, QueryEndTime, QueryProduct, QueryReq, "");
-                    if (vDemandRequest.size() > 0) {
-                        demandCount = vDemandRequest.size();
-                        for (int i = 0; i < vDemandRequest.size(); i++) {
-                            HashMap reqMap = (HashMap) vDemandRequest.get(i);
-                            sDEMAND_ID = (String) reqMap.get("DEMAND_ID");
-                            sDemandName = (String) reqMap.get("DEMAND_NAME");
-                            sDemandStatus = (String) reqMap.get("STATE");
-                            sProjectName = (String) reqMap.get("PROJECT_NAME");
-                            sLevelId = (String) reqMap.get("LEVEL_ID");
-                            sSubSysName = (String) reqMap.get("SUBSYS_NAME");
-                            sModuleName = (String) reqMap.get("MODULE_NAME");
-                            sFinishTime = (String) reqMap.get("FINISHTIME");
-                            sDevId = (String) reqMap.get("DEV_ID");
-                            sTesterId = (String) reqMap.get("TESTER_ID");
-                            sReportTime = (String) reqMap.get("REPORT_TIME");
-                            sPlanDevBeginTime = (String) reqMap.get("PLAN_DEV_BEGIN_TIME");
-                            sPlanDevTime = (String) reqMap.get("PLAN_DEV_TIME");
-
-
-                %>
-
-
-                <tr>
-                    <td class="coltext">
-                        <div align="center"><input type="radio" name="demandradio"
-                                                   value="<%out.print(sDEMAND_ID+"|"+sDemandStatus);%>"></div>
-                    </td>
-                    <td class="coltext">(<%=j%>)</td>
-                    <td class="coltext"><a href="#"
-                                           onclick="goToURL(/*href*/'DemandManager.DemandInfo.jsp?planid=<%=sDEMAND_ID%>')"><%=sDEMAND_ID%>
-                    </a></td>
-                    <td class="coltext"><%=sDemandName%>
-                    </td>
-                    <td class="coltext"><%=sDemandStatus%>
-                    </td>
-                    <td class="coltext"><%=sSubSysName%>
-                    </td>
-                    <td class="coltext"><%=sModuleName%>
-                    </td>
-                    <td class="coltext"><%=sProjectName%>
-                    </td>
-                    <td class="coltext"><%=sLevelId%>
-                    </td>
-                    <td class="coltext"><%=sPlanDevBeginTime%>
-                    </td>
-                    <td class="coltext"><%=sPlanDevTime%>
-                    </td>
-                    <td class="coltext"><%=sDevId%>
-                    </td>
-                    <td class="coltext"><%=sTesterId%>
-                    </td>
-
-
-                    <%-- 				<td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(PLAN_DEV_TIME==null) out.print("&nbsp;");else out.print(PLAN_DEV_TIME);%></td>
-                                        <td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(REAL_DEV_TIME==null) out.print("&nbsp;");else out.print(REAL_DEV_TIME);%></td>
-                                        <td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(PLAN_TEST_TIME==null) out.print("&nbsp;");else out.print(PLAN_TEST_TIME);%></td>
-                                         <td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(DEV_NAME==null) out.print("&nbsp;");else out.print(DEV_NAME);%></td>
-                                         <td class="<%if(i%2!=0) out.print("coltext"); else out.print("coltext2");%>">&nbsp;<%if(TESTER_NAME==null) out.print("&nbsp;");else out.print(TESTER_NAME);%></td>
-                                        <td class="<%if(i%2!=0) out.print("coltext10"); else out.print("coltext20");%>">&nbsp;<%if(REMARK==null) out.print("&nbsp;");else out.print(REMARK);%></td> --%>
-                </tr>
-                <%
-                            j = j + 1;
-                        }
-                    }
-                %>
-
-
             </table>
         </td>
     </tr>
-</table>
-</td>
-</tr>
 </table>
 </table>
 <%
@@ -842,6 +846,18 @@
         if (d.getSeconds() != r[6])return false;
         return true;
     }
+
+</script>
+<script src="../datatables/js/jquery.js"></script>
+<script src="../datatables/js/jquery.dataTables.js"></script>
+<script src="../datatables/js/dataTables.colVis.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#steplist').DataTable({
+            "dom": 'C<"clear">lfrtip'
+        });
+    });
 
 </script>
 </body>

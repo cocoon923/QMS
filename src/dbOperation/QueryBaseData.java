@@ -8,8 +8,8 @@ import java.util.Vector;
 public class QueryBaseData {
     /**
      * 根据分组、人员id查询人员及分组，入参为空默认查询组内所有有效人员
-     * @param groupId
-     * @param opId
+     * @param sgroupId
+     * @param sopId
      */
 	public Vector queryOpInfo (String sgroupId, String sopId)
 	{ 
@@ -38,8 +38,8 @@ public class QueryBaseData {
     /**
      * added by liyf 20100329
      * 根据分组、人员id查询人员及分组，入参为空默认查询组内所有有效人员(For 新建计划)
-     * @param groupId
-     * @param opId
+     * @param sgroupId
+     * @param sopId
      */
 	public Vector queryOpInfoForNewPlan (String sgroupId, String sopId)
 	{ 
@@ -100,7 +100,7 @@ public class QueryBaseData {
 
     /**
      * 根据产品id，查询产品下的子系统
-     * @param sproduct
+     * @param sproductId
      */
 	public Vector querySubSystem (String sproductId) 
 	{ 	
