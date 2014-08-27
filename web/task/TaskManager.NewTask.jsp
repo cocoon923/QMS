@@ -1,5 +1,5 @@
 <!--modify by huyf  -->
-<%@ page contentType="text/html; charset=gb2312" language="java"import="java.util.*,java.io.*,java.sql.*"%>
+<%@ page contentType="text/html; charset=gb2312" language="java" import="java.util.*,java.io.*,java.sql.*"%>
 <jsp:useBean id="QueryBaseData" scope="page" class="dbOperation.QueryBaseData" />
 <jsp:useBean id="TaskManager" scope="page" class="dbOperation.TaskManager" />
 <jsp:useBean id="ImportRequriment" scope="page" class="dbOperation.ImportRequriment" />

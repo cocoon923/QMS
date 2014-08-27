@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=gb2312" language="java"import="java.util.*,java.io.*,java.sql.*" %>
+<%@ page contentType="text/html; charset=gb2312" language="java" import="java.util.*,java.io.*,java.sql.*" %>
 <jsp:useBean id="Approval" scope="page" class="dbOperation.Approval" />
 
 <%
@@ -76,7 +76,6 @@ for(int k=0;k<sList.length;k++)
    }
 }
 }
-	
 	out.print("sopId="+sopId);
 	out.print("<br>sProductId="+sProductId);
 	out.print("<br>sSubsysId="+sSubsysId);

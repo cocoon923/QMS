@@ -1,5 +1,5 @@
 <%@include file="../allcheck.jsp"%>
-<%@ page contentType="text/html; charset=gb2312" language="java"import="java.util.*,java.io.*,java.sql.*"%>
+<%@ page contentType="text/html; charset=gb2312" language="java" import="java.util.*,java.io.*,java.sql.*"%>
 <jsp:useBean id="importRequirment" scope="page" class="dbOperation.ImportRequriment" />
 <%
   request.setCharacterEncoding("gb2312");

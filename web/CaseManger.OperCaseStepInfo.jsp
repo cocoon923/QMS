@@ -1,5 +1,5 @@
 
-<%@ page contentType="text/html; charset=gb2312" language="java"import="java.util.*,java.io.*,java.sql.*" %>
+<%@ page contentType="text/html; charset=gb2312" language="java" import="java.util.*,java.io.*,java.sql.*" %>
 <%@ page import="com.jspsmart.upload.*" %>
 
 <jsp:useBean id="CaseOpera" scope="page" class="dbOperation.CaseOpera" />

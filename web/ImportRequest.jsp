@@ -1,7 +1,7 @@
 <jsp:useBean id="dataBean" scope="page" class="dbOperation.CaseInfo" />
 <jsp:useBean id="DemandManager" scope="page" class="dbOperation.DemandManager" />
 
-<%@ page contentType="text/html; charset=gb2312" language="java"import="java.util.*,java.io.*,java.sql.*" %>
+<%@ page contentType="text/html; charset=gb2312" language="java" import="java.util.*,java.io.*,java.sql.*" %>
 
 <%
   request.setCharacterEncoding("gb2312");
