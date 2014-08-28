@@ -14,6 +14,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="../datatables/css/dataTables.colVis.css">
+<link rel="stylesheet" type="text/css" href="../datatables/css/dataTables.tableTools.css">
 <link rel="stylesheet" type="text/css" href="../datatables/css/jquery.dataTables.css">
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <%@ page contentType="text/html; charset=gb2312" %>
@@ -242,54 +243,54 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td class="contentbottomline">
-    <table width="100%" border="0" cellspacing="0" cellpadding="1">
-        <%
+<table width="100%" border="0" cellspacing="0" cellpadding="1">
+    <%
 
-            Vector vDataBaseDate = importRequirment.getDataBaseDate();
-            if (vDataBaseDate.size() > 0) {
-                HashMap dataBaseMap = (HashMap) vDataBaseDate.get(0);
-                sdate_s = (String) dataBaseMap.get("SDATE_S");
-                sDate = (String) dataBaseMap.get("SDATE");
-            }
-            if (!sSelectStartDate.equals(""))
-                sdate_s = sSelectStartDate;
-            if (!sSelectEndDate.equals(""))
-                sDate = sSelectEndDate;
-        %>
-        <tr>
-            <td width="15%" class="pagetitle1" style="height: 40px; ">
-                <div align="left">录入时间：</div>
-                <div align="right"></div>
-            </td>
-            <td width="85%" class="pagetextdetails">
+        Vector vDataBaseDate = importRequirment.getDataBaseDate();
+        if (vDataBaseDate.size() > 0) {
+            HashMap dataBaseMap = (HashMap) vDataBaseDate.get(0);
+            sdate_s = (String) dataBaseMap.get("SDATE_S");
+            sDate = (String) dataBaseMap.get("SDATE");
+        }
+        if (!sSelectStartDate.equals(""))
+            sdate_s = sSelectStartDate;
+        if (!sSelectEndDate.equals(""))
+            sDate = sSelectEndDate;
+    %>
+    <tr>
+        <td width="15%" class="pagetitle1" style="height: 40px; ">
+            <div align="left">录入时间：</div>
+            <div align="right"></div>
+        </td>
+        <td width="85%" class="pagetextdetails">
+            <%
+                if (sQueryDate.equals("1")) {
+                    if (sSelectDate.equals("1")) {
+            %>
+            <input name="cdate" type="checkbox" id="chk_date" value="1" checked>
+            <%
+            } else {
+            %>
+            <input name="cdate" type="checkbox" id="chk_date" value="1">
+            <%
+                }
+            } else {
+            %>
+            <input name="cdate" type="checkbox" id="chk_date" value="1">
+            <%
+                }
+            %>
+            <input name="startTime" type="text" class="inputstyle" id="startTime" onClick="JSCalendar(this);"
+                   value="<%=sdate_s%>" size="10">
+            ---
+            <input name="endTime" type="text" class="inputstyle" id="endTime" value="<%=sDate%>" size="10"
+                   onClick="JSCalendar(this);"></td>
+    </tr>
+    <input type="hidden" name="sCheckDate" value="1">
+    <tr class="contentbg">
+        <td class="pagetitle1" style="height: 40px; ">产品名称：</td>
+        <td><font class="pagetextdetails">
                 <%
-                    if (sQueryDate.equals("1")) {
-                        if (sSelectDate.equals("1")) {
-                %>
-                <input name="cdate" type="checkbox" id="chk_date" value="1" checked>
-                <%
-                } else {
-                %>
-                <input name="cdate" type="checkbox" id="chk_date" value="1">
-                <%
-                    }
-                } else {
-                %>
-                <input name="cdate" type="checkbox" id="chk_date" value="1">
-                <%
-                    }
-                %>
-                <input name="startTime" type="text" class="inputstyle" id="startTime" onClick="JSCalendar(this);"
-                       value="<%=sdate_s%>" size="10">
-                ---
-                <input name="endTime" type="text" class="inputstyle" id="endTime" value="<%=sDate%>" size="10"
-                       onClick="JSCalendar(this);"></td>
-        </tr>
-        <input type="hidden" name="sCheckDate" value="1">
-        <tr class="contentbg">
-            <td class="pagetitle1" style="height: 40px; ">产品名称：</td>
-            <td><font class="pagetextdetails">
-                    <%
                          Vector vProductInfo=importRequirment.getAllProductInfo("1");
                          if(vProductInfo.size()>0)
                          {
@@ -313,27 +314,27 @@
                               if(k==0)
                               {
                       %>
-                <input type="checkbox" value="<%=PRODUCT_ID%>" name="productName"><font
-                    class="pagetextdetails"><%=PRODUCT_NAME%>&nbsp;&nbsp;
-                    <%        }
+            <input type="checkbox" value="<%=PRODUCT_ID%>" name="productName"><font
+                class="pagetextdetails"><%=PRODUCT_NAME%>&nbsp;&nbsp;
+                <%        }
                               else
                               {
                      %>
-                <input type="checkbox" value="<%=PRODUCT_ID%>" name="productName" checked><font
-                        class="pagetextdetails"><%=PRODUCT_NAME%>&nbsp;&nbsp;
+            <input type="checkbox" value="<%=PRODUCT_ID%>" name="productName" checked><font
+                    class="pagetextdetails"><%=PRODUCT_NAME%>&nbsp;&nbsp;
 
-                    <%
-                                }
+                <%
                             }
                         }
-                    %>
-                </font></td>
-        </tr>
+                    }
+                %>
+            </font></td>
+    </tr>
 
-        <tr>
-            <td class="pagetitle1" style="height: 40px; ">需求状态：</td>
-            <td><font class="pagetextdetails">
-                    <%
+    <tr>
+        <td class="pagetitle1" style="height: 40px; ">需求状态：</td>
+        <td><font class="pagetextdetails">
+                <%
                       	 //Vector vRequirement=QueryBaseData.querySysBaseType("DEMAND_REQUEST","STATUS");
                          Vector vRequirement=importRequirment.getAllRequirement("1,2,3,4,5");
                          if(vRequirement.size()>0)
@@ -358,91 +359,91 @@
                                 if(ik==0)
                                 {
                        %>
-                <input type="checkbox" value="<%=PRODUCT_ID%>" name="productState"><font
-                    class="pagetextdetails"><%=NAME%>&nbsp;&nbsp;
+            <input type="checkbox" value="<%=PRODUCT_ID%>" name="productState"><font
+                class="pagetextdetails"><%=NAME%>&nbsp;&nbsp;
 
-                    <%
+                <%
                                 }
                                 else
                                 {
                        %>
-                <input type="checkbox" value="<%=PRODUCT_ID%>" name="productState" checked><font
-                        class="pagetextdetails"><%=NAME%>&nbsp;&nbsp;
-                    <%
-                                }
+            <input type="checkbox" value="<%=PRODUCT_ID%>" name="productState" checked><font
+                    class="pagetextdetails"><%=NAME%>&nbsp;&nbsp;
+                <%
                             }
                         }
-                    %>
+                    }
+                %>
 
-                </font></td>
-        </tr>
+            </font></td>
+    </tr>
 
-        <tr style="display:none">
-            <td class="pagetitle1" style="height: 30px; ">需求状态：</td>
-            <td>
-                <select style="width: 315px; " name="demandflag" class="inputstyle" id="demandflag">
-                    <%
-                        if (sdemandflag == null) {
-                    %>
-                    <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
-                    <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
-                    <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
-                    <%
-                    } else {
-                        if (sdemandflag.equals("")) {
-                    %>
-                    <option value="" class="pagetextdetails" selected> -------------- 选择所有 --------------</option>
-                    <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
-                    <option value="1" class="pagetextdetails"> [1] 生效 <br></option>
-                    <%
-                    } else if (sdemandflag.equals("0")) {
-                    %>
-                    <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
-                    <option value="0" class="pagetextdetails" selected> [0] 失效 <br></option>
-                    <option value="1" class="pagetextdetails"> [1] 生效 <br></option>
-                    <%
-                    } else if (sdemandflag.equals("1")) {
-                    %>
-                    <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
-                    <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
-                    <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
-                    <%
-                    } else {
-                    %>
-                    <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
-                    <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
-                    <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
-                    <%
-                            }
+    <tr style="display:none">
+        <td class="pagetitle1" style="height: 30px; ">需求状态：</td>
+        <td>
+            <select style="width: 315px; " name="demandflag" class="inputstyle" id="demandflag">
+                <%
+                    if (sdemandflag == null) {
+                %>
+                <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
+                <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
+                <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
+                <%
+                } else {
+                    if (sdemandflag.equals("")) {
+                %>
+                <option value="" class="pagetextdetails" selected> -------------- 选择所有 --------------</option>
+                <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
+                <option value="1" class="pagetextdetails"> [1] 生效 <br></option>
+                <%
+                } else if (sdemandflag.equals("0")) {
+                %>
+                <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
+                <option value="0" class="pagetextdetails" selected> [0] 失效 <br></option>
+                <option value="1" class="pagetextdetails"> [1] 生效 <br></option>
+                <%
+                } else if (sdemandflag.equals("1")) {
+                %>
+                <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
+                <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
+                <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
+                <%
+                } else {
+                %>
+                <option value="" class="pagetextdetails"> -------------- 选择所有 --------------</option>
+                <option value="0" class="pagetextdetails"> [0] 失效 <br></option>
+                <option value="1" class="pagetextdetails" selected> [1] 生效 <br></option>
+                <%
                         }
-                    %>
-                </select>
-            </td>
-        </tr>
+                    }
+                %>
+            </select>
+        </td>
+    </tr>
 
-        <!--
+    <!--
                 <tr  class="contentbg">
                   <td class="pagetitle1" style= "height: 35px; ">需求编号：</td>
                   <td class="pagetextdetails">
                   <input name="rId" type="text" class="inputstyle" id="rId"   size="50" value="<%=rId%>"></td>
                 </tr> -->
 
-        <tr class="contentbg">
-            <td class="pagetitle1" style="height: 45px; ">需求标题：</td>
-            <td class="pagetextdetails">
-                <input name="demandTitle" type="text" class="inputstyle" id="demandTitle" size="50"
-                       value="<%=demandTitle%>">
-            </td>
-        </tr>
+    <tr class="contentbg">
+        <td class="pagetitle1" style="height: 45px; ">需求标题：</td>
+        <td class="pagetextdetails">
+            <input name="demandTitle" type="text" class="inputstyle" id="demandTitle" size="50"
+                   value="<%=demandTitle%>">
+        </td>
+    </tr>
 
-        <!--
+    <!--
                 <tr>
                   <td class="pagetitle1" style= "height: 35px; ">故障编号：</td>
                   <td class="pagetextdetails">
                   <input name="gId" type="text" class="inputstyle" id="gId"   size="50" value="<%=gId%>"></td>
                 </tr>-->
 
-    </table>
+</table>
 </td>
 </tr>
 <tr>
@@ -547,6 +548,7 @@
                 <tr>
                     <td>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" id="steplist">
+                            <thead>
                             <tr>
                                 <td width="3%" class="pagecontenttitle">
                                     <div align="center"></div>
@@ -564,6 +566,8 @@
                                 <td width="7%" class="pagecontenttitle">开发人员<br></td>
                                 <td width="8%" class="pagecontenttitle">测试人员<br></td>
                             </tr>
+                            </thead>
+                            <tbody>
                             <%
                                 String sDEMAND_ID = "";
                                 String sDemandName = "";
@@ -650,7 +654,7 @@
                                 }
                             %>
 
-
+                            </tbody>
                         </table>
                     </td>
                 </tr>
@@ -851,11 +855,29 @@
 <script src="../datatables/js/jquery.js"></script>
 <script src="../datatables/js/jquery.dataTables.js"></script>
 <script src="../datatables/js/dataTables.colVis.js"></script>
+<script src="../datatables/js/dataTables.tableTools.js"></script>
 <script>
 
     $(document).ready(function () {
         $('#steplist').DataTable({
-            "dom": 'C<"clear">lfrtip'
+            "dom": 'CT<"clear">lfrtip',
+            columnDefs: [
+                { visible: false, targets: 2 }
+            ],
+            colVis: {
+                showAll: "全选",
+                showNone: "全不选"
+            },
+            "tableTools": {
+                "sSwfPath": "../datatables/swf/copy_csv_xls.swf",
+                "aButtons": [
+                    {
+                        "sExtends": "xls",
+                        "sButtonText": "导出",
+                        "mColumns": "visible"
+                    }
+                ]
+            }
         });
     });
 
