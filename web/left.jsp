@@ -84,7 +84,9 @@
 
 
                                 <tr>
-                                    <td height="22" colspan="3">&nbsp;<a href="stat/Stat.Index.jsp?"
+                                    <%--<td height="22" colspan="3">&nbsp;<a href="stat/Stat.Index.jsp?"--%>
+                                    <%--target="main">查询统计</a></td>--%>
+                                    <td height="22" colspan="3">&nbsp;<a href="query/Query.Index.jsp"
                                                                          target="main">查询统计</a></td>
                                 </tr>
                                 <tr>

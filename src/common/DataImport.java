@@ -46,10 +46,10 @@ public class DataImport {
 					HashMap map = generateData(excleMap, dbMap);
 					String runableSql = geanerateSQL(orginSQL, map);
 					if (runableSql.indexOf("{OPEN_ID}") > 0) {
-						runableSql = runableSql.replaceAll("{OPEN_ID}", openID);
+						runableSql = runableSql.replace("{OPEN_ID}", openID);
 					}
 					if (runableSql.indexOf("{PROJECT_CODE}") > 0) {
-						runableSql = runableSql.replaceAll("{PROJECT_CODE}", "1");
+						runableSql = runableSql.replace("{PROJECT_CODE}", "1");
 					}
 					DBConnection lib = new DBConnection();
 					boolean isImported = lib.executeUpdate(runableSql);
@@ -161,7 +161,7 @@ public class DataImport {
 	/**
 	 * 生成Excle_COL_NO---DB_COL_NAME映射关系
 	 * 
-	 * @param importName
+	 * @param importType
 	 * @return
 	 */
 	public Vector queryCfgImportMapping(String importType) {
