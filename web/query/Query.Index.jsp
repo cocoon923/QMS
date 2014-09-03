@@ -14,6 +14,10 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="../datatables/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="../datatables/css/dataTables.tableTools.css">
+    <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../impromptu/themes/base.css">
+    <link rel="stylesheet" type="text/css" href="../impromptu/jquery-impromptu.css">
     <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 
     <%@ page contentType="text/html; charset=gb2312" %>
@@ -25,7 +29,7 @@
 </head>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-<table id="query" class="display" cellspacing="0" width="100%">
+<table id="queryTable" class="display" cellspacing="0" width="100%">
     <thead>
     <tr>
         <th>查询ID</th>
@@ -47,17 +51,10 @@
 
 <script src="../datatables/js/jquery.js"></script>
 <script src="../datatables/js/jquery.dataTables.js"></script>
-
-<script>
-
-    $(document).ready(function () {
-        $('#query').DataTable({
-            "ajax": '../ajax/data/arrays.txt',
-            "dom": 'lfrtip'
-        });
-    });
-
-</script>
+<script src="../datatables/js/dataTables.tableTools.js"></script>
+<script src="../impromptu/jquery-impromptu.js"></script>
+<script src="prompt.js"></script>
+<script src="query.js"></script>
 </body>
 </html>
                 

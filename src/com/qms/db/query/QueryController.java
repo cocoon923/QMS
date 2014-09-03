@@ -8,7 +8,7 @@ import com.jfinal.core.Controller;
 public class QueryController extends Controller {
 
 	public void index() {
-		this.renderJson(Query.dao.findAll());
+		this.renderJson("data", Query.dao.findAll());
 	}
 
 }

@@ -1,9 +1,12 @@
 package com.qms.db;
 
+import com.alibaba.druid.util.JdbcConstants;
+import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.config.*;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
 import com.jfinal.plugin.activerecord.dialect.OracleDialect;
-import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.jfinal.plugin.druid.DruidPlugin;
 import com.qms.db.query.Query;
 import com.qms.db.query.QueryController;
 
@@ -25,6 +28,7 @@ public class DBConfig extends JFinalConfig {
 	 * 配置路由
 	 */
 	public void configRoute(Routes me) {
+		me.add("/", CommonController.class);
 		me.add("/query", QueryController.class);
 	}
 
@@ -32,13 +36,19 @@ public class DBConfig extends JFinalConfig {
 	 * 配置插件
 	 */
 	public void configPlugin(Plugins me) {
-		// 配置C3p0数据库连接池插件
-		C3p0Plugin dsOracle = new C3p0Plugin(getProperty("db.url"), getProperty("db.username"), getProperty("db.password").trim(), getProperty("db.driverclasss"));
-		me.add(dsOracle);
-		ActiveRecordPlugin arOracle = new ActiveRecordPlugin(dsOracle);
-		me.add(arOracle);
-		arOracle.setDialect(new OracleDialect());
-		arOracle.addMapping("query", Query.class);
+		DruidPlugin dp = new DruidPlugin(getProperty("db.url"), getProperty("db.username"), getProperty("db.password"));
+		dp.setDriverClass(getProperty("db.driver.class"));
+		dp.setValidationQuery("SELECT 1 FROM DUAL");
+		WallFilter wall = new WallFilter();
+		wall.setDbType(JdbcConstants.ORACLE);
+		dp.addFilter(wall);
+		me.add(dp);
+
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
+		me.add(arp);
+		arp.setDialect(new OracleDialect());
+		arp.setContainerFactory(new CaseInsensitiveContainerFactory());
+		arp.addMapping("query_def", "QUERY_ID", Query.class);
 	}
 
 	/**
