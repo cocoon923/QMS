@@ -2,7 +2,44 @@
  * Created by chenmm on 9/2/2014.
  */
 $(document).ready(function () {
-    $('#queryTable').DataTable({
+
+    var node = "queryTable";
+
+    var buttons = [
+        {
+            "sExtends": "text",
+            "sButtonText": "Query",
+            "fnClick": function (nButton, oConfig, oFlash) {
+                var data = getSelectRowData("queryTable");
+                if (checkData(data) && checkQuery(data[0])) {
+                    redirect2DetailPage(data[0].QUERY_ID);
+                }
+            }
+        },
+        {
+            "sExtends": "text",
+            "sButtonText": "Add",
+            "fnClick": function (nButton, oConfig, oFlash) {
+                $('#addmodal').modal('show');
+            }
+        },
+        {
+            "sExtends": "text",
+            "sButtonText": "Delete",
+            "fnClick": function (nButton, oConfig, oFlash) {
+                var data = getSelectRowData(node);
+                checkData(data);
+                prompt().queryDelete(data[0].QUERY_ID, function delRow(success) {
+                    if (success) {
+//                        console.log(getSelectRow(node)[0]);
+                        getSelectRow(node)[0].remove();
+                    }
+                });
+            }
+        }
+    ];
+
+    var table = $('#queryTable').DataTable({
         "ajax": 'query',
         "columns": [
             { "data": "QUERY_ID" },
@@ -11,35 +48,9 @@ $(document).ready(function () {
             { "data": "QUERY_VALID" }
         ],
         "dom": 'T<"clear">t',
-        tableTools: {
+        "tableTools": {
             "sRowSelect": "single",
-            "aButtons": [
-                {
-                    "sExtends": "text",
-                    "sButtonText": "Query",
-                    "fnClick": function (nButton, oConfig, oFlash) {
-                        var data = getSelectRowData("queryTable");
-                        if (checkData(data) && checkQuery(data[0])) {
-                            redirect2DetailPage(data[0].QUERY_ID);
-                        }
-                    }
-                },
-                {
-                    "sExtends": "text",
-                    "sButtonText": "Add",
-                    "fnClick": function (nButton, oConfig, oFlash) {
-
-                    }
-                },
-                {
-                    "sExtends": "text",
-                    "sButtonText": "Delete",
-                    "fnClick": function (nButton, oConfig, oFlash) {
-                        var data = getSelectRowData("queryTable");
-                        checkData(data);
-                    }
-                }
-            ]
+            "aButtons": buttons
         }
     });
 });
@@ -48,6 +59,11 @@ $(document).ready(function () {
 function getSelectRowData(node) {
     var oTT = TableTools.fnGetInstance(node);
     return oTT.fnGetSelectedData();
+}
+
+function getSelectRow(node) {
+    var oTT = TableTools.fnGetInstance(node);
+    return oTT.fnGetSelected();
 }
 
 function checkData(data) {
@@ -70,4 +86,8 @@ function checkQuery(data) {
         prompt().basic("≤È—ØSQLŒﬁ–ß£°");
     }
     return result;
+}
+
+function addRow(table, query) {
+    table.row.add(query).draw();
 }
