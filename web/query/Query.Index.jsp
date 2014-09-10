@@ -79,7 +79,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn" id="cancel">取消</button>
-            <button type="submit" class="btn btn-primary">登录</button>
+            <button type="submit" class="btn btn-primary">提交</button>
         </div>
     </form>
 </div>

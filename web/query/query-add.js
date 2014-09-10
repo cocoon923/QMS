@@ -29,11 +29,11 @@ $(function () {
                 QUERY_SQL: querySql,
                 QUERY_VALID: 1
             },
-            success: function (res) {
-                if (res.islogin == '1') {
-                    location.href = domain + '/tp/index.htm';
+            success: function (data) {
+                if (data) {
+                    location.href = 'Query.Index.jsp';
                 } else {
-                    alert('用户名或者密码不正确');
+                    alert('查询新建失败');
                 }
             }
         });

@@ -10,7 +10,6 @@ function prompt() {
 
     function queryDelete(queryId, delRow) {
         $.prompt("是否删除该查询？", {
-//            title: "是否删除该查询？",
             buttons: { "是": true, "否": false },
             submit: function (e, v, m, f) {
                 if (v) {

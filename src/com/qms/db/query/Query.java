@@ -21,7 +21,7 @@ public class Query extends Model<Query> {
 	}
 
 	public void add(String queryName, String querySQL) {
-		Query query = new Query().set("QUERY_ID", "QUERY_SEQ.Nextval").set("QUERY_NAME", queryName).set("QUERY_SQL", querySQL).set("QUERY_VALID", 1);
+		Query query = new Query().set("QUERY_ID", "QUERY_SEQ.nextval").set("QUERY_NAME", queryName).set("QUERY_SQL", querySQL).set("QUERY_VALID", 1);
 		query.save();
 	}
 
