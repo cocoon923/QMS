@@ -31,7 +31,6 @@ $(document).ready(function () {
                 checkData(data);
                 prompt().queryDelete(data[0].QUERY_ID, function delRow(success) {
                     if (success) {
-//                        console.log(getSelectRow(node)[0]);
                         getSelectRow(node)[0].remove();
                     }
                 });
@@ -39,13 +38,14 @@ $(document).ready(function () {
         }
     ];
 
-    var table = $('#queryTable').DataTable({
+    $('#queryTable').DataTable({
         "ajax": 'query',
+        "autoWidth": false,
         "columns": [
             { "data": "QUERY_ID" },
-            { "data": "QUERY_NAME" },
-            { "data": "QUERY_SQL" },
-            { "data": "QUERY_VALID" }
+            { "data": "QUERY_NAME"},
+            { "data": "QUERY_SQL", "width": "50%" },
+            { "data": "QUERY_VALID"}
         ],
         "dom": 'T<"clear">t',
         "tableTools": {
@@ -54,7 +54,6 @@ $(document).ready(function () {
         }
     });
 });
-
 
 function getSelectRowData(node) {
     var oTT = TableTools.fnGetInstance(node);
@@ -76,8 +75,8 @@ function checkData(data) {
 }
 
 function redirect2DetailPage(queryId) {
-    var url = "Query.Detail.jsp?QUERY_ID=" + queryId;
-    window.location = url;
+    window.location = "detail?QUERY_ID=" + queryId;
+//    window.location = "Query.Detail.html?QUERY_ID=" + queryId;
 }
 
 function checkQuery(data) {
@@ -86,8 +85,4 @@ function checkQuery(data) {
         prompt().basic("≤È—ØSQLŒﬁ–ß£°");
     }
     return result;
-}
-
-function addRow(table, query) {
-    table.row.add(query).draw();
 }

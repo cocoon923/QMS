@@ -7,6 +7,10 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
 import com.jfinal.plugin.activerecord.dialect.OracleDialect;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.qms.db.aliases.Aliases;
+import com.qms.db.aliases.AliasesController;
+import com.qms.db.chart.Chart;
+import com.qms.db.chart.ChartController;
 import com.qms.db.query.Query;
 import com.qms.db.query.QueryController;
 
@@ -30,6 +34,8 @@ public class DBConfig extends JFinalConfig {
 	public void configRoute(Routes me) {
 		me.add("/", CommonController.class);
 		me.add("/query", QueryController.class);
+		me.add("/chart", ChartController.class);
+		me.add("/aliases", AliasesController.class);
 	}
 
 	/**
@@ -49,6 +55,8 @@ public class DBConfig extends JFinalConfig {
 		arp.setDialect(new OracleDialect());
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory());
 		arp.addMapping("query_def", "QUERY_ID", Query.class);
+		arp.addMapping("chart", "CHART_ID", Chart.class);
+		arp.addMapping("aliases", "ALIASES_ID", Aliases.class);
 	}
 
 	/**

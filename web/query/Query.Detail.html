@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>查询统计详情</title>
+    <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../datatables/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="../datatables/css/dataTables.tableTools.css">
+</head>
+<body>
+<div id="btnback" style="margin-bottom:10px">
+    <button type="button" id="back" class="btn btn-primary" autocomplete="off">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;返回
+    </button>
+</div>
+
+<div class="panel-group" id="charts" role="tablist" aria-multiselectable="true">
+    <#list charts as chart>
+        <div class="panel panel-default">
+            <#if chart.CHART_TYPE == 0>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#collapseTable" data-toggle="collapse" aria-expanded="true"
+                           aria-controls="collapseTable"
+                           data-parent="#charts">表格</a>
+                    </h4>
+                </div>
+                <div id="collapseTable" class="block-body collapse in">
+                    <div class="panel-body">
+                        <#assign hasTable = 1/>
+                        <#if chart.CHART_OPTION?exists>
+                            <#assign tableOption = chart.CHART_OPTION/>
+                        </#if>
+                        <table id="tableChart">
+                            <thead>
+                            <tr>
+                                <#list aliases as alias>
+                                    <th>${alias.ALIASES_NAME}</th>
+                                </#list>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <#list aliases as alias>
+                                    <th>${alias.ALIASES_NAME}</th>
+                                </#list>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </#if>
+
+            <#if chart.CHART_TYPE == 1>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#collapsePie" data-toggle="collapse" aria-expanded="false"
+                           aria-controls="collapsePie"
+                           data-parent="#charts">饼状图</a>
+                    </h4>
+                </div>
+                <div id="collapsePie" class="block-body collapse">
+                    <div class="panel-body">
+                        <#assign hasPie = 1/>
+                        <#if chart.CHART_OPTION?exists>
+                            <#assign pieOption = chart.CHART_OPTION/>
+                        </#if>
+
+                        Test
+                    </div>
+                </div>
+            </#if>
+        </div>
+    </#list>
+</div>
+
+<script>
+    var queryId = '${queryId}';
+    var hasTable = '${hasTable}';
+    var tableOption = JSON.parse('${tableOption}');
+</script>
+<script src="../datatables/js/jquery.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../datatables/js/jquery.dataTables.js"></script>
+<script src="../datatables/js/dataTables.tableTools.js"></script>
+<script src="common.js"></script>
+<script src="query-detail.js"></script>
+</body>
+</html>

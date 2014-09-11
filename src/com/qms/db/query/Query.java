@@ -12,7 +12,7 @@ public class Query extends Model<Query> {
 
 	public static final Query dao = new Query();
 
-	public List findAll() {
+	public List<Query> findAll() {
 		return this.find("select * from query_def");
 	}
 

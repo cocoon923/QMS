@@ -2,6 +2,10 @@ package com.qms.db.query;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
+import com.qms.db.aliases.Aliases;
+import com.qms.db.chart.Chart;
+
+import java.util.List;
 
 /**
  * Created by chenmm on 9/1/2014.
@@ -48,6 +52,18 @@ public class QueryController extends Controller {
 		} finally {
 			this.renderJson(result.toJSONString());
 		}
+	}
+
+	public void detail() {
+		int queryId = getParaToInt("QUERY_ID");
+		this.setAttr("queryId", queryId);
+		this.setAttr("charts", Chart.dao.findByQueryId(queryId));
+		List<Aliases> aliases = Aliases.dao.getAliases(queryId);
+		if (aliases != null && aliases.size() > 0) {
+			this.setAttr("aliases", aliases);
+		}
+
+		this.render("Query.Detail.html");
 	}
 
 }
