@@ -17,7 +17,7 @@ $(document).ready(function () {
                     {
                         "sExtends": "text",
                         "sButtonText": "Delete",
-                        "fnClick": function (nButton, oConfig, oFlash) {
+                        "fnClick": function (nButton, oConfig, oFlash) {dsa
                             alert("Delete TableChart");
                         }
                     }

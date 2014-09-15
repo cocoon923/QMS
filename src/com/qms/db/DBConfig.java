@@ -1,6 +1,7 @@
 package com.qms.db;
 
 import com.alibaba.druid.util.JdbcConstants;
+import com.alibaba.druid.wall.WallConfig;
 import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.config.*;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
@@ -47,6 +48,9 @@ public class DBConfig extends JFinalConfig {
 		dp.setValidationQuery("SELECT 1 FROM DUAL");
 		WallFilter wall = new WallFilter();
 		wall.setDbType(JdbcConstants.ORACLE);
+		WallConfig wallConfig = new WallConfig();
+		wallConfig.setFunctionCheck(false);
+		wall.setConfig(wallConfig);
 		dp.addFilter(wall);
 		me.add(dp);
 

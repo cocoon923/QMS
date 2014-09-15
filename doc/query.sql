@@ -20,3 +20,7 @@ insert into QUERY_DEF values (1, '查询统计测试', 'select * from stat_field;', 1)
 insert into QUERY_DEF values (2, '查询统计测试2', 'select * from stat_def;', 1);
 insert into QUERY_DEF values (QUERY_SEQ.Nextval, 'lasdjf', 'asdfasd', 0);
 commit;
+
+update query_def q set q.query_sql = '' where q.query_id =  16;
+
+commit;

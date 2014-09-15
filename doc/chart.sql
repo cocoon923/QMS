@@ -15,9 +15,11 @@ insert into chart values (CHART_SEQ.nextval, 16, 1, '');
 commit;
 
 select * from chart where query_id = 16;
-update chart c set c.chart_option = '{"columns":[{"data":"PRODUCT_VERSION_ID"},{"data":"OP_NAME"},{"data":"DEMAND_TITLE"},{"data":"QA_TIME"},{"data":"DEMAND_ID"},{"data":"NAME"}]}'
+update chart c set c.chart_option = '{"columns":[{"data":"PRODUCT_VERSION_ID"},{"data":"OP_NAME"},{"data":"DEMAND_TITLE"},{"data":"QA_TIME"},{"data":"DEMAND_ID"},{"data":"NAME"},{"data":"DATAS"}]}'
 where c.chart_id=2;
 
 update chart c set c.chart_option = '' where c.chart_id=3;
 
 commit;
+
+select * from chart where query_id = 16 and chart_type = 1;

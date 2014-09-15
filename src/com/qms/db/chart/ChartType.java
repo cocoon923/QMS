@@ -5,7 +5,7 @@ package com.qms.db.chart;
  */
 public enum ChartType {
 
-	TABLE(0);
+	TABLE(0), PIE(1);
 
 	private int value;
 
@@ -16,4 +16,5 @@ public enum ChartType {
 	public int getValue() {
 		return this.value;
 	}
+
 }

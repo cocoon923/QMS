@@ -1,5 +1,6 @@
 package com.qms.db.chart;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
@@ -21,6 +22,20 @@ public class ChartController extends Controller {
 	public void tableData() {
 		Query query = Query.dao.findById(getPara("QUERY_ID"));
 		List<Record> records = Db.find(query.getStr("QUERY_SQL"));
+		JSONObject data = new JSONObject();
+		data.put("data", records);
+		this.renderJson(data);
+	}
+
+	public void pieData(){
+		Query query = Query.dao.findById(getPara("QUERY_ID"));
+		List<Record> records = Db.find(query.getStr("QUERY_SQL"));
+
+		for(Chart chart : Chart.dao.findByQueryIdChartType(query.getInt("QUERY_ID"), ChartType.PIE)){
+			JSONObject queryOption = JSON.parseObject(chart.getStr("CHART_OPTION"));
+
+		}
+
 		JSONObject data = new JSONObject();
 		data.put("data", records);
 		this.renderJson(data);

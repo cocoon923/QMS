@@ -14,4 +14,8 @@ public class Chart extends Model<Chart> {
 	public List<Chart> findByQueryId(int queryId) {
 		return this.find("select * from chart where query_id = ?", queryId);
 	}
+
+	public List<Chart> findByQueryIdChartType(int queryId, ChartType chartType) {
+		return this.find("select * from chart where query_id = ? and chart_type = ?", new Object[]{queryId, chartType.getValue()});
+	}
 }
