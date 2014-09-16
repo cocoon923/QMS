@@ -10,7 +10,7 @@ create table CHART
 select * from chart;
 select * from query_def;
 insert into chart values (QMS_SEQ.nextval, 10000000000, 0, '{"columns":[{"data":"PRODUCT_VERSION_ID"},{"data":"OP_NAME"},{"data":"DEMAND_TITLE"},{"data":"QA_TIME"},{"data":"DEMAND_ID"},{"data":"NAME"},{"data":"DATAS"}]}');
-insert into chart values (QMS_SEQ.nextval, 10000000000, 1, '{"seriesname" : "testDatas", "namecol":"DEMAND_TITLE", "ycol":"DATAS", "referto":"pieContainer"}');
+insert into chart values (QMS_SEQ.nextval, 10000000000, 1, '{"seriesname" : "testDatas", "namecol":"DEMAND_TITLE", "ycol":"DATAS"}');
 commit;
 
 truncate table chart;

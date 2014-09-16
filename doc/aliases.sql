@@ -16,13 +16,15 @@ create table ALIASES
 create sequence ALIASES_SEQ increment by 1 start with 1 nomaxvalue nocycle nocache;
 commit;
 
-insert into ALIASES values (ALIASES_SEQ.NEXTVAL, 16, 1, '版本号', 'PRODUCT_VERSION_ID');
-insert into ALIASES values (ALIASES_SEQ.NEXTVAL, 16, 2, '测试人员', 'OP_NAME');
-insert into ALIASES values (ALIASES_SEQ.NEXTVAL, 16, 3, '需求名称', 'DEMAND_TITLE');
-insert into ALIASES values (ALIASES_SEQ.NEXTVAL, 16, 4, '测试时间', 'QA_TIME');
-insert into ALIASES values (ALIASES_SEQ.NEXTVAL, 16, 5, '需求ID', 'DEMAND_ID');
-insert into ALIASES values (ALIASES_SEQ.NEXTVAL, 16, 6, '地区', 'NAME');
-insert into ALIASES values (ALIASES_SEQ.NEXTVAL, 16, 7, '数据', 'DATAS');
+insert into ALIASES values (QMS_SEQ.NEXTVAL, 10000000000, 1, '版本号', 'PRODUCT_VERSION_ID');
+insert into ALIASES values (QMS_SEQ.NEXTVAL, 10000000000, 2, '测试人员', 'OP_NAME');
+insert into ALIASES values (QMS_SEQ.NEXTVAL, 10000000000, 3, '需求名称', 'DEMAND_TITLE');
+insert into ALIASES values (QMS_SEQ.NEXTVAL, 10000000000, 4, '测试时间', 'QA_TIME');
+insert into ALIASES values (QMS_SEQ.NEXTVAL, 10000000000, 5, '需求ID', 'DEMAND_ID');
+insert into ALIASES values (QMS_SEQ.NEXTVAL, 10000000000, 6, '地区', 'NAME');
+insert into ALIASES values (QMS_SEQ.NEXTVAL, 10000000000, 7, '数据', 'DATAS');
 commit;
 
-select * from ALIASES where QUERY_ID = 16 order by ALIASES_SEQ asc;
+select * from ALIASES where QUERY_ID = 10000000000 order by ALIASES_SEQ asc;
+
+truncate table aliases;
