@@ -3,6 +3,7 @@ package com.qms.db.query;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class Query extends Model<Query> {
 	}
 
 	public void add(String queryName, String querySQL) {
-		Query query = new Query().set("QUERY_ID", "QUERY_SEQ.nextval").set("QUERY_NAME", queryName).set("QUERY_SQL", querySQL).set("QUERY_VALID", 1);
+		Query query = new Query().set("QUERY_ID", "QMS_SEQ.nextval").set("QUERY_NAME", queryName).set("QUERY_SQL", querySQL).set("QUERY_VALID", 1);
 		query.save();
 	}
 
@@ -32,6 +33,22 @@ public class Query extends Model<Query> {
 			return false;
 		}
 		return true;
+	}
+
+	public BigDecimal getQueryId() {
+		return this.getBigDecimal("QUERY_ID");
+	}
+
+	public String getQueryName() {
+		return this.getStr("QUERY_NAME");
+	}
+
+	public String getQuerySql() {
+		return this.getStr("QUERY_SQL");
+	}
+
+	public int getQueryValid() {
+		return this.getInt("QUERY_VALID");
 	}
 
 }

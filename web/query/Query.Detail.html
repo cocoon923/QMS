@@ -63,8 +63,7 @@
                         <#if chart.CHART_OPTION?exists>
                             <#assign pieOption = chart.CHART_OPTION/>
                         </#if>
-
-                        Test
+                        <div id="pieContainer" style="min-width:700px;height:300px"></div>
                     </div>
                 </div>
             </#if>
@@ -76,15 +75,13 @@
     var queryId = '${queryId}';
     var hasTable = '${hasTable}';
     var tableOption = JSON.parse('${tableOption}');
-    console.log(tableOption);
+    var hasPie = '${hasPie}';
 </script>
 <script src="../datatables/js/jquery.js"></script>
 <script src="../bootstrap/js/bootstrap.min.js"></script>
 <script src="../datatables/js/jquery.dataTables.js"></script>
 <script src="../datatables/js/dataTables.tableTools.js"></script>
-<script src="../chart/highcharts-all.js"></script>
-<script src="../chart/jquery.highchartTable.js"></script>
-<script src="common.js"></script>
+<script src="../chart/highcharts.js"></script>
 <script src="query-detail.js"></script>
 </body>
 </html>

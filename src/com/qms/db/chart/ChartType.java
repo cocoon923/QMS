@@ -13,8 +13,18 @@ public enum ChartType {
 		this.value = value;
 	}
 
-	public int getValue() {
+	public int value() {
 		return this.value;
+	}
+
+	public static ChartType type(int value) {
+		switch (value) {
+			case 0:
+				return TABLE;
+			case 1:
+				return PIE;
+		}
+		return null;
 	}
 
 }

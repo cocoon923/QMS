@@ -1,6 +1,7 @@
 package com.qms.db.chart;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
@@ -15,30 +16,50 @@ import java.util.List;
  */
 public class ChartController extends Controller {
 
-	public void test() {
-		this.renderJson("data", Aliases.dao.getAliases(16));
-	}
-
 	public void tableData() {
 		Query query = Query.dao.findById(getPara("QUERY_ID"));
-		List<Record> records = Db.find(query.getStr("QUERY_SQL"));
+		List<Record> records = Db.find(query.getQuerySql());
 		JSONObject data = new JSONObject();
 		data.put("data", records);
 		this.renderJson(data);
 	}
 
-	public void pieData(){
+	public void pieData() {
 		Query query = Query.dao.findById(getPara("QUERY_ID"));
-		List<Record> records = Db.find(query.getStr("QUERY_SQL"));
+		List<Record> records = Db.find(query.getQuerySql());
+		JSONObject pieCfg = JSON.parseObject(ChartCfg.dao.getChartCfg(ChartCfg.PIE_CFG).get(0).getCfgValue());
 
-		for(Chart chart : Chart.dao.findByQueryIdChartType(query.getInt("QUERY_ID"), ChartType.PIE)){
-			JSONObject queryOption = JSON.parseObject(chart.getStr("CHART_OPTION"));
+		JSONArray returnData = new JSONArray();
 
+		for (Chart chart : Chart.dao.findByQueryIdChartType(query.getQueryId(), ChartType.PIE)) {
+			JSONObject queryOption = JSON.parseObject(chart.getChartOption());
+
+			JSONObject title = new JSONObject();
+			title.put("text", query.getQueryName());
+			pieCfg.put("title", title);
+
+			JSONArray series = new JSONArray();
+			JSONObject series0 = new JSONObject();
+			series0.put("type", "pie");
+			series0.put("name", queryOption.getString("seriesname"));
+
+			String nameCol = queryOption.getString("namecol");
+			String yCol = queryOption.getString("ycol");
+			JSONArray data = new JSONArray();
+			for (Record record : records) {
+				JSONObject item = new JSONObject();
+				item.put("name", record.get(nameCol));
+				item.put("y", record.get(yCol));
+				data.add(item);
+			}
+			series0.put("data", data);
+			series.add(series0);
+			pieCfg.put("series", series);
+
+			returnData.add(pieCfg);
 		}
 
-		JSONObject data = new JSONObject();
-		data.put("data", records);
-		this.renderJson(data);
+		this.renderJson("records", returnData);
 	}
 
 }

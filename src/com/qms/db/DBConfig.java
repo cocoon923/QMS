@@ -11,6 +11,7 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.qms.db.aliases.Aliases;
 import com.qms.db.aliases.AliasesController;
 import com.qms.db.chart.Chart;
+import com.qms.db.chart.ChartCfg;
 import com.qms.db.chart.ChartController;
 import com.qms.db.query.Query;
 import com.qms.db.query.QueryController;
@@ -58,9 +59,11 @@ public class DBConfig extends JFinalConfig {
 		me.add(arp);
 		arp.setDialect(new OracleDialect());
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory());
+
 		arp.addMapping("query_def", "QUERY_ID", Query.class);
 		arp.addMapping("chart", "CHART_ID", Chart.class);
 		arp.addMapping("aliases", "ALIASES_ID", Aliases.class);
+		arp.addMapping("chart_cfg", "CFG_ID", ChartCfg.class);
 	}
 
 	/**

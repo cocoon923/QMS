@@ -25,4 +25,16 @@ $(document).ready(function () {
             }
         });
     }
+
+    if(hasPie){
+        $.ajax({
+            url: "../chart/pieData?QUERY_ID=" + queryId,
+            dataType: 'json',
+            type: 'post',
+            cache: false,
+            success: function (data) {
+                new Highcharts.Chart(data.records[0]);
+            }
+        });
+    }
 });

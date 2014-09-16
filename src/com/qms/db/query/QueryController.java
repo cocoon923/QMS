@@ -5,6 +5,7 @@ import com.jfinal.core.Controller;
 import com.qms.db.aliases.Aliases;
 import com.qms.db.chart.Chart;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class QueryController extends Controller {
 	}
 
 	public void detail() {
-		int queryId = getParaToInt("QUERY_ID");
+		BigDecimal queryId = new BigDecimal(getPara("QUERY_ID"));
 		this.setAttr("queryId", queryId);
 		this.setAttr("charts", Chart.dao.findByQueryId(queryId));
 		List<Aliases> aliases = Aliases.dao.getAliases(queryId);
