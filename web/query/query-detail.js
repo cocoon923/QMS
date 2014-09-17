@@ -7,7 +7,8 @@ $('#back').on('click', function () {
 })
 
 $(document).ready(function () {
-    if (hasTable) {
+    var typeStr = types.join("|");
+    if (typeStr.indexOf("table") >= 0) {
         $('#tableChart').dataTable({
             "ajax": "../chart/tableData?QUERY_ID=" + queryId,
             "columns": tableOption.columns,
@@ -17,7 +18,7 @@ $(document).ready(function () {
                     {
                         "sExtends": "text",
                         "sButtonText": "Delete",
-                        "fnClick": function (nButton, oConfig, oFlash) {dsa
+                        "fnClick": function (nButton, oConfig, oFlash) {
                             alert("Delete TableChart");
                         }
                     }
@@ -25,10 +26,20 @@ $(document).ready(function () {
             }
         });
     }
-
-    if(hasPie){
+    if (typeStr.indexOf("pie") >= 0) {
         $.ajax({
             url: "../chart/pieData?QUERY_ID=" + queryId,
+            dataType: 'json',
+            type: 'post',
+            cache: false,
+            success: function (data) {
+                new Highcharts.Chart(data.records[0]);
+            }
+        });
+    }
+    if (typeStr.indexOf("bar") >= 0) {
+        $.ajax({
+            url: "../chart/barData?QUERY_ID=" + queryId,
             dataType: 'json',
             type: 'post',
             cache: false,

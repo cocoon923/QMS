@@ -13,8 +13,9 @@ create table CHART_CFG
 );
 
 insert into chart_cfg values (QMS_SEQ.nextval, '±˝Õº≈‰÷√', 'PIE_CFG', '{  chart: {  renderTo: ''pieContainer'', plotBackgroundColor: null,  plotBorderWidth: null,  plotShadow: false  },  tooltip: {  pointFormat: ''{series.name}: <b>{point.percentage:.1f}%</b>''  },  plotOptions: {  pie: {   allowPointSelect: true,   cursor: ''pointer'',   dataLabels: {   enabled: false   },   showInLegend: true  }  } }');
+insert into chart_cfg values (QMS_SEQ.nextval, '÷˘◊¥Õº≈‰÷√', 'BAR_CFG', '{  chart: {  renderTo: ''barContainer'', type: ''column''  },  credits: {  enabled: false  } }');
 commit;
 
-select * from chart_cfg where cfg_key = ?;
+select * from chart_cfg;
 
 truncate table chart_cfg;

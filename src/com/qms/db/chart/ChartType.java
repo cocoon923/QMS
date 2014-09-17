@@ -5,7 +5,7 @@ package com.qms.db.chart;
  */
 public enum ChartType {
 
-	TABLE(0), PIE(1);
+	TABLE(0), PIE(1), BAR(2);
 
 	private int value;
 

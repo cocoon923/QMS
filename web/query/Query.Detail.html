@@ -13,6 +13,9 @@
 </div>
 
 <div class="panel-group" id="charts" role="tablist" aria-multiselectable="true">
+    <script>
+        var types = new Array();
+    </script>
     <#list charts as chart>
         <div class="panel panel-default">
             <#if chart.CHART_TYPE == 0>
@@ -25,7 +28,7 @@
                 </div>
                 <div id="collapseTable" class="block-body collapse in">
                     <div class="panel-body">
-                        <#assign hasTable = 1/>
+                        <script>types.push("table");</script>
                         <#if chart.CHART_OPTION?exists>
                             <#assign tableOption = chart.CHART_OPTION/>
                         </#if>
@@ -59,23 +62,34 @@
                 </div>
                 <div id="collapsePie" class="block-body collapse">
                     <div class="panel-body">
-                        <#assign hasPie = 1/>
-                        <#if chart.CHART_OPTION?exists>
-                            <#assign pieOption = chart.CHART_OPTION/>
-                        </#if>
+                        <script>types.push("pie");</script>
                         <div id="pieContainer" style="min-width:700px;height:300px"></div>
                     </div>
                 </div>
             </#if>
+
+            <#if chart.CHART_TYPE == 2>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#collapseBar" data-toggle="collapse" aria-expanded="false"
+                           aria-controls="collapseBar"
+                           data-parent="#charts">柱状图</a>
+                    </h4>
+                </div>
+                <div id="collapseBar" class="block-body collapse">
+                    <div class="panel-body">
+                        <script>types.push("bar");</script>
+                        <div id="barContainer" style="min-width:700px;height:300px"></div>
+                    </div>
+                </div>
+            </#if>
+
         </div>
     </#list>
 </div>
-
 <script>
     var queryId = '${queryId}';
-    var hasTable = '${hasTable}';
     var tableOption = JSON.parse('${tableOption}');
-    var hasPie = '${hasPie}';
 </script>
 <script src="../datatables/js/jquery.js"></script>
 <script src="../bootstrap/js/bootstrap.min.js"></script>

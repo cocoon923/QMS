@@ -16,19 +16,23 @@ public class Aliases extends Model<Aliases> {
 		return this.find("select * from ALIASES where QUERY_ID = ? order by ALIASES_SEQ asc", queryId);
 	}
 
-	public BigDecimal getAliasesId(){
+	public Aliases getAliasesByCol(BigDecimal queryId, String aliasesCol) {
+		return this.find("select * from ALIASES where QUERY_ID = ? and ALIASES_COL = ?", new Object[]{queryId, aliasesCol}).get(0);
+	}
+
+	public BigDecimal getAliasesId() {
 		return this.getBigDecimal("ALIASES_ID");
 	}
 
-	public int getAliasesSeq(){
+	public int getAliasesSeq() {
 		return this.getInt("ALIASES_SEQ");
 	}
 
-	public String getAliasesName(){
+	public String getAliasesName() {
 		return this.getStr("ALIASES_NAME");
 	}
 
-	public String getAliasesCol(){
+	public String getAliasesCol() {
 		return this.getStr("ALIASES_COL");
 	}
 

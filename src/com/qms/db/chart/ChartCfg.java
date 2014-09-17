@@ -11,6 +11,7 @@ import java.util.List;
 public class ChartCfg extends Model<ChartCfg> {
 
 	public static final String PIE_CFG = "PIE_CFG";
+	public static final String BAR_CFG = "BAR_CFG";
 
 	public static final ChartCfg dao = new ChartCfg();
 
