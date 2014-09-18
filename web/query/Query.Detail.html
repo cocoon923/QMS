@@ -84,6 +84,23 @@
                 </div>
             </#if>
 
+            <#if chart.CHART_TYPE == 3>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#collapseLine" data-toggle="collapse" aria-expanded="false"
+                           aria-controls="collapseLine"
+                           data-parent="#charts">折线图</a>
+                    </h4>
+                </div>
+                <div id="collapseLine" class="block-body collapse">
+                    <div class="panel-body">
+                        <script>types.push("line");</script>
+                        <div id="lineContainer" style="min-width:700px;height:300px"></div>
+                    </div>
+                </div>
+            </#if>
+
+
         </div>
     </#list>
 </div>

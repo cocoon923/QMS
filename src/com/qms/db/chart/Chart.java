@@ -13,7 +13,7 @@ public class Chart extends Model<Chart> {
 	public static final Chart dao = new Chart();
 
 	public List<Chart> findByQueryId(BigDecimal queryId) {
-		return this.find("select * from chart where query_id = ?", queryId);
+		return this.find("select * from chart where query_id = ? order by chart_type", queryId);
 	}
 
 	public List<Chart> findByQueryIdChartType(BigDecimal queryId, ChartType chartType) {

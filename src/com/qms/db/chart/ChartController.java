@@ -109,4 +109,50 @@ public class ChartController extends Controller {
 		this.renderJson("records", returnData);
 	}
 
+	public void lineData() {
+		Query query = Query.dao.findById(getPara("QUERY_ID"));
+		List<Record> records = Db.find(query.getQuerySql());
+		JSONObject lineCfg = JSON.parseObject(ChartCfg.dao.getChartCfg(ChartCfg.LINE_CFG).get(0).getCfgValue());
+
+		JSONArray returnData = new JSONArray();
+
+		for (Chart chart : Chart.dao.findByQueryIdChartType(query.getQueryId(), ChartType.LINE)) {
+			JSONObject queryOption = JSON.parseObject(chart.getChartOption());
+
+			JSONObject title = new JSONObject();
+			title.put("text", query.getQueryName());
+			lineCfg.put("title", title);
+
+			JSONArray categories = new JSONArray();
+			JSONObject xAxis = new JSONObject();
+
+			JSONArray series = new JSONArray();
+			String nameCol = queryOption.getString("namecol");
+			JSONArray dataCols = JSON.parseArray(queryOption.getString("dataCol"));
+			for (Record record : records) {
+				JSONObject seriesItem = new JSONObject();
+				seriesItem.put("name", record.get(nameCol));
+
+				JSONArray dataArray = new JSONArray();
+				for (Iterator it = dataCols.iterator(); it.hasNext(); ) {
+					String dataCol = (String) it.next();
+					dataArray.add(record.get(dataCol));
+				}
+				seriesItem.put("data", dataArray);
+				series.add(seriesItem);
+			}
+			for (Iterator it = dataCols.iterator(); it.hasNext(); ) {
+				String dataCol = (String) it.next();
+				categories.add(Aliases.dao.getAliasesByCol(query.getQueryId(), dataCol).getAliasesName());
+			}
+			xAxis.put("categories", categories);
+			lineCfg.put("xAxis", xAxis);
+			lineCfg.put("series", series);
+
+			returnData.add(lineCfg);
+		}
+
+		this.renderJson("records", returnData);
+	}
+
 }

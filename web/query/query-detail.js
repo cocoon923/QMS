@@ -48,4 +48,15 @@ $(document).ready(function () {
             }
         });
     }
+    if (typeStr.indexOf("line") >= 0) {
+        $.ajax({
+            url: "../chart/lineData?QUERY_ID=" + queryId,
+            dataType: 'json',
+            type: 'post',
+            cache: false,
+            success: function (data) {
+                new Highcharts.Chart(data.records[0]);
+            }
+        });
+    }
 });
