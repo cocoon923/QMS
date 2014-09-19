@@ -12,8 +12,13 @@ $(document).ready(function () {
         $('#tableChart').dataTable({
             "ajax": "../chart/tableData?QUERY_ID=" + queryId,
             "columns": tableOption.columns,
-            "dom": 'T<"clear">t',
+            "dom": 'CT<"clear">ft',
+            colVis: {
+                showAll: "全选",
+                showNone: "全不选"
+            },
             "tableTools": {
+                "sSwfPath": "../datatables/swf/copy_csv_xls.swf",
                 "aButtons": [
                     {
                         "sExtends": "text",
@@ -21,6 +26,12 @@ $(document).ready(function () {
                         "fnClick": function (nButton, oConfig, oFlash) {
                             alert("Delete TableChart");
                         }
+                    },
+                    {
+                        "sExtends": "xls",
+                        "sButtonText": "导出",
+                        "mColumns": "visible",
+                        "bFooter": false
                     }
                 ]
             }
